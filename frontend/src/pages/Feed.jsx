@@ -14,8 +14,7 @@ const Feed = () => {
   useEffect(() => {
     // setLoading(true);
     const apiEndPoint = `${port}/api/v1/post/all`;
-    axios
-      .get(apiEndPoint, {
+    axios.get(apiEndPoint, {
         headers: {
           Authorization: `Bearer ${user.accessToken}`,
         },

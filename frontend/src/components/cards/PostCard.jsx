@@ -42,8 +42,7 @@ const PostCard = ({
     console.log(detailsToLikePost);
 
     if (likePost) {
-      axios
-        .post(apiEndPointLikePost, detailsToLikePost, {
+      axios.post(apiEndPointLikePost, detailsToLikePost, {
           headers: {
             Authorization: `Bearer ${user.userAccessToken}`,
           },
