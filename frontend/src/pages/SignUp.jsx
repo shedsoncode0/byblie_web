@@ -25,8 +25,7 @@ const SignUp = () => {
       fullname: 'shedrackaigbe',
     };
 
-    axios
-      .post(apiEndPoint, userInformation)
+    axios.post(apiEndPoint, userInformation)
       .then((response) => {
         setSignedIn(true);
         localStorage.setItem('user', JSON.stringify(response.data));

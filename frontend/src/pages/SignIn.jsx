@@ -23,8 +23,7 @@ const SignIn = () => {
       password: userDetails.password,
     };
 
-    axios
-      .post(apiEndPoint, userInformation)
+    axios.post(apiEndPoint, userInformation)
       .then((response) => {
         localStorage.setItem('user', JSON.stringify(response.data));
         console.log(response.data);
