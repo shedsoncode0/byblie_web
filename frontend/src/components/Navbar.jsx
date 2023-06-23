@@ -1,18 +1,22 @@
-import { Children, useContext } from 'react';
+import { useContext } from 'react';
 import BottomNav from './BottomNav';
 import { AiOutlineHome } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { IoEarthOutline } from 'react-icons/io5';
 import { BsPencilSquare } from 'react-icons/bs';
 import { BiMessageSquareDetail, BiUserCircle } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useHref } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
+import HomeNavbar from './navbars/HomeNavbar';
+import ProfileNavbar from './navbars/ProfileNavbar';
+import CreatePageNavbar from './navbars/CreatePageNavbar';
 
 const Navbar = ({ children }) => {
   const { signedIn } = useContext(AppContext);
+  let routeName = useHref();
   return (
     <div className='flex h-full'>
-      {signedIn && (
+      {!signedIn && (
         <div
           id='application-sidebar'
           className='hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden h-full top-0 left-0 bottom-0 z-[60] w-64 bg-white border-r border-gray-200 pt-7 pb-10 overflow-y-auto scrollbar-y lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:scrollbar-y dark:bg-gray-800 dark:border-gray-700'
@@ -106,7 +110,14 @@ const Navbar = ({ children }) => {
       {/* // <!-- End Sidebar -->
 
   // <!-- Content --> */}
-      <div className='w-full'>{children}</div>
+      <div className='w-full'>
+        <div className='w-full border-b bottom-[3px] border-gray-200 block lg:hidden px-4 lg:px-6 py-3'>
+          {routeName === '/feed' ? <HomeNavbar /> : null}
+          {routeName === '/profile' ? <ProfileNavbar /> : null}
+          {routeName === '/create' ? <CreatePageNavbar /> : null}
+        </div>
+        {children}
+      </div>
       {/* <!-- End Content --> */}
 
       {signedIn && (

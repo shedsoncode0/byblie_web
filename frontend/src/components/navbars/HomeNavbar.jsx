@@ -2,7 +2,7 @@ import React from 'react';
 
 const HomeNavbar = () => {
   return (
-    <nav className='bg-white absolute w-full z-50 border-b-2 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800'>
+    <>
       <div className='flex justify-between items-center mx-auto max-w-screen-xl'>
         <a href='#' className='flex items-center'>
           {/* <img
@@ -30,7 +30,7 @@ const HomeNavbar = () => {
           </svg>
         </div>
       </div>
-    </nav>
+    </>
   );
 };
 

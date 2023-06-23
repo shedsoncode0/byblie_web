@@ -6,9 +6,9 @@ import { AiOutlineWhatsApp } from 'react-icons/ai';
 
 const Profile = () => {
   return (
-    <section className='flex flex-col items-center w-full'>
+    <section className='flex flex-col items-center w-full p-5'>
       <div className='max-w-sm w-full'>
-        <div className='flex w-full justify-center items-center gap-4'>
+        <div className='flex justify-center items-center gap-4'>
           <div className='overflow-hidden w-28 h-28 rounded-full border-4 border-slate-900'>
             <img
               src='/image.png'

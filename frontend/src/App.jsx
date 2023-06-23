@@ -7,6 +7,8 @@ import Layout from './components/layout';
 import Profile from './pages/Profile';
 import Feed from './pages/Feed';
 import CreatePost from './pages/CreatePost';
+import Search from './pages/Search';
+import Message from './pages/Message';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/feed' element={<Feed />} />
+          <Route path='/search' element={<Search />} />
+          <Route path='/message' element={<Message />} />
         </Routes>
       </Layout>
     </BrowserRouter>

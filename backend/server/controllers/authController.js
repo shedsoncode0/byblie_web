@@ -1,11 +1,11 @@
-const bcrypt = require("bcryptjs");
-const User = require("../models/UserModel");
-const asyncHandler = require("express-async-handler");
+const bcrypt = require('bcryptjs');
+const User = require('../models/UserModel');
+const asyncHandler = require('express-async-handler');
 const {
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
-} = require("../../utils/jwt");
+} = require('../../utils/jwt');
 
 /**
  * @description Register User
@@ -17,15 +17,15 @@ const register = async (req, res) => {
   const { fullname, email, password } = req.body;
 
   if (!fullname || !email || !password) {
-    res.status(400);
-    throw new Error("Please add all fields");
+    res.status(400).json('Please add all fields');
+    return;
   }
 
   // Check if Email already exist in the database
   const emailExit = await User.findOne({ email });
   if (emailExit) {
-    res.status(400);
-    throw new Error("Email already exist");
+    res.status(400).json('Email already exist');
+    return;
   }
 
   //Hashing the user password
@@ -55,7 +55,7 @@ const register = async (req, res) => {
       refreshToken: refreshToken,
     });
   } catch (error) {
-    res.status(500).json("Invalid user data");
+    res.status(500).json('Invalid user data');
   }
 };
 
@@ -69,22 +69,22 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password)
-    return res.status(400).send("All fields are required");
+    return res.status(400).json('All fields are required');
 
   try {
     // Check if username exit
     const user = await User.findOne({ email });
 
     if (!user) {
-      res.status(404);
-      throw new Error("User not found");
+      res.status(401).json('User not found');
+      return;
     }
 
     // Checking if the user password is correct
-    const checkPassword = await bcrypt.compare(password, user.password);
+    const checkPassword = bcrypt.compare(password, user.password);
     if (!checkPassword) {
-      res.status(401);
-      throw new Error("Username/password not valid");
+      res.status(401).json('Username/password not valid');
+      return;
     }
 
     // Generating JWT Tokens
@@ -92,6 +92,7 @@ const login = async (req, res) => {
     const refreshToken = signRefreshToken(user._id);
 
     res.status(200).json({
+      userId: user._id,
       accessToken: accessToken,
       refreshToken: refreshToken,
     });

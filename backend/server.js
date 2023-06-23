@@ -18,24 +18,24 @@ const app = express();
 
 // Server Middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(morgan('dev'));
 
 app.get('/', verifyAccessToken, async (req, res) => {
-    res.status(200).json({
-        id: req.user.id,
-        fullname: req.user.fullname,
-        email: req.user.email,
-    });
-})
+  res.status(200).json({
+    id: req.user.id,
+    fullname: req.user.fullname,
+    email: req.user.email,
+  });
+});
 
 // Route Middlewares
-app.use('/api/auth', require('./server/routes/authRoute'));
-app.use('/api/user', require('./server/routes/userRoute'));
-app.use('/api/project', require('./server/routes/projectRoute'));
+app.use('/api/v1/auth', require('./server/routes/authRoute'));
+app.use('/api/v1/user', require('./server/routes/userRoute'));
+app.use('/api/v1/post', require('./server/routes/post_route'));
 
 // Start the server
 app.listen(PORT, () => {
-    console.log("Server is up an Running on POST " + PORT.rainbow.underline);
+  console.log('Server is up an Running on POST ' + PORT.rainbow.underline);
 });

@@ -1,4 +1,6 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../../contexts/AppContext';
 
 const PostCard = ({
   userImage,
@@ -6,11 +8,76 @@ const PostCard = ({
   name,
   text,
   discription,
-  image,
   time,
-  likes,
+  textColor,
+  likesCount,
   bgColor,
+  comments,
+  likesObject,
+  postId,
 }) => {
+  const [likes, setLikes] = useState(likesObject);
+  const [likePost, setLikePost] = useState(false);
+  const { port, user } = useContext(AppContext);
+
+  useEffect(() => {
+    likes.forEach((like) => {
+      if (like.userId === user.userId) {
+        setLikePost(true);
+      }
+    });
+  }, []);
+
+  // Send a request to like post or unlike post
+  useEffect(() => {
+    const apiEndPointLikePost = `${port}/api/v1/post/like`;
+    const apiEndPointUnLikePost = `${port}/api/v1/post/unlike`;
+
+    const detailsToLikePost = {
+      postId,
+      username,
+      name,
+      userImage,
+    };
+    console.log(detailsToLikePost);
+
+    if (likePost) {
+      axios
+        .post(apiEndPointLikePost, detailsToLikePost, {
+          headers: {
+            Authorization: `Bearer ${user.userAccessToken}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      // axios
+      //   .post(
+      //     apiEndPointUnLikePost,
+      //     { postId },
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${userAccessToken}`,
+      //       },
+      //     }
+      //   )
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+    }
+  }, [likePost]);
+
+  const handleLike = () => {
+    setLikePost(!likePost);
+  };
+
   return (
     <div className=' w-full max-w-[500px] rounded-lg bg-white '>
       {/* Header */}
@@ -27,42 +94,40 @@ const PostCard = ({
             </div>
             <div className='ml-3'>
               <h3 className='font-semibold text-sm text-gray-800 dark:text-white'>
-                Maria Wanner
+                {name}
               </h3>
-              <p className='text-xs font-medium text-gray-400'>
-                maria@gmail.com
-              </p>
+              <p className='text-xs font-medium text-gray-400'>{username}</p>
             </div>
           </div>
         </div>
       </div>
       {/* Header end */}
-      <p className='px-3 pb-3 text-sm'>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex,
-        perspiciatis ut commodi deserunt assumenda, eaque rem voluptatum atque
-        iure?
-      </p>
+      <p className='px-3 pb-3 text-sm'>{discription}</p>
       {/* post */}
       <div
+        onDoubleClick={handleLike}
         style={{ backgroundColor: bgColor }}
         className={`h-[300px] flex justify-center items-center w-full bg-${bgColor}`}
       >
         {' '}
-        <h2 className='text-xl font-semibold text-white'>
-          I love God!!! so much
+        <h2 className='text-xl font-semibold ' style={{ color: textColor }}>
+          {text}
         </h2>
       </div>
       {/* end post */}
       {/* Like */}
       <div className='w-full p-3 gap-x-3'>
-        <div className='flex gap-x-3'>
+        <div className='flex items-center gap-x-3'>
           <svg
+            onClick={handleLike}
             xmlns='http://www.w3.org/2000/svg'
-            fill='none'
+            fill={`${likePost ? 'red' : 'none'}`}
             viewBox='0 0 24 24'
-            strokeWidth={1.5}
+            strokeWidth={`${likePost ? '0' : '1.5'}`}
             stroke='currentColor'
-            className='w-6 h-6'
+            className={`${
+              likePost ? 'w-7 h-7 transition-all' : 'w-6 h-6 transition-all'
+            }`}
           >
             <path
               strokeLinecap='round'
@@ -85,7 +150,9 @@ const PostCard = ({
             />
           </svg>
         </div>
-        <h3 className='font-semibold mt-2 text-sm'>10 likes</h3>
+        <h3 className='font-semibold mt-2 text-sm'>
+          {likePost ? likesCount + 1 : likesCount} likes
+        </h3>
       </div>
       {/* end Like */}
 
@@ -97,18 +164,13 @@ const PostCard = ({
         />
         <span className='flex absolute right-3 top-2/4 -mt-3 items-center px-3'>
           <svg
+            aria-hidden='true'
+            className='w-6 h-6 rotate-90'
+            fill='currentColor'
+            viewBox='0 0 20 20'
             xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6'
           >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5'
-            />
+            <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z'></path>
           </svg>
         </span>
       </div>
