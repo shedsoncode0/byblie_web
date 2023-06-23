@@ -3,7 +3,7 @@ import './App.css';
 import Hero from './pages/Hero';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import Layout from './components/layout';
+import Layout from './components/Layout';
 import Profile from './pages/Profile';
 import Feed from './pages/Feed';
 import CreatePost from './pages/CreatePost';
