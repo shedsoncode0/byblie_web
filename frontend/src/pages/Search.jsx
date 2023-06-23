@@ -9,8 +9,7 @@ const Search = () => {
   useEffect(() => {
     const apiEndPoint = `${port}/api/v1/user/all`;
 
-    axios
-      .get(apiEndPoint, {
+    axios.get(apiEndPoint, {
         headers: {
           Authorization: `Bearer ${user.accessToken}`,
         },
