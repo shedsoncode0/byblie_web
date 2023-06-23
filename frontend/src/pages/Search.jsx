@@ -25,42 +25,46 @@ const Search = () => {
   return (
     <section className='w-full h-full p-5 flex items-center flex-col'>
       <div className='w-full max-w-4xl'>
-        <div>
-          <div className='relative flex rounded-md shadow-sm'>
-            <input
-              type='text'
-              id='hs-search-box-with-loading-5'
-              name='hs-search-box-with-loading-5'
-              className='py-3 px-4 pl-11 block w-full border-gray-200 shadow-sm rounded-l-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400'
-              placeholder='Input search'
-            />
-            <div className='absolute inset-y-0 left-0 flex items-center pointer-events-none pl-4'>
+        <form>
+          <label
+            htmlFor='search'
+            className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
+          >
+            Search
+          </label>
+          <div className='relative'>
+            <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
               <svg
-                className='h-4 w-4 text-gray-400'
+                aria-hidden='true'
+                className='w-5 h-5 text-gray-500 dark:text-gray-400'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'
-                width='16'
-                height='16'
-                fill='currentColor'
-                viewBox='0 0 16 16'
               >
-                <path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z' />
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                ></path>
               </svg>
             </div>
+            <input
+              type='search'
+              id='search'
+              className='block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              placeholder='Search'
+              required
+            />
             <button
-              type='button'
-              className='py-3 px-4 inline-flex flex-shrink-0 justify-center items-center gap-2 rounded-r-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm'
+              type='submit'
+              className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
             >
-              <span
-                className='animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full'
-                role='status'
-                aria-label='loading'
-              >
-                <span className='sr-only'>Loading...</span>
-              </span>
               Search
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

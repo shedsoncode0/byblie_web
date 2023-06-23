@@ -80,100 +80,119 @@ const PostCard = ({
 
   return (
     <div className=' w-full max-w-[500px] rounded-lg bg-white '>
-      {/* Header */}
-      <div className='p-4'>
-        <div className='flex-shrink-0 group block'>
-          <div className='flex items-center relative'>
-            <div className='relative'>
-              <img
-                className='inline-block flex-shrink-0 object-cover h-[2.875rem] w-[2.875rem] rounded-full'
-                src='/image.png'
-                alt='Image Description'
-              />
-              <span className='absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-green-400'></span>
-            </div>
-            <div className='ml-3'>
-              <h3 className='font-semibold text-sm text-gray-800 dark:text-white'>
-                {name}
-              </h3>
-              <p className='text-xs font-medium text-gray-400'>{username}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Header end */}
-      <p className='px-3 pb-3 text-sm'>{discription}</p>
-      {/* post */}
-      <div
-        onDoubleClick={handleLike}
-        style={{ backgroundColor: bgColor }}
-        className={`h-[300px] flex justify-center items-center w-full bg-${bgColor}`}
-      >
-        {' '}
-        <h2 className='text-xl font-semibold ' style={{ color: textColor }}>
-          {text}
-        </h2>
-      </div>
-      {/* end post */}
-      {/* Like */}
-      <div className='w-full p-3 gap-x-3'>
-        <div className='flex items-center gap-x-3'>
-          <svg
-            onClick={handleLike}
-            xmlns='http://www.w3.org/2000/svg'
-            fill={`${likePost ? 'red' : 'none'}`}
-            viewBox='0 0 24 24'
-            strokeWidth={`${likePost ? '0' : '1.5'}`}
-            stroke='currentColor'
-            className={`${
-              likePost ? 'w-7 h-7 transition-all' : 'w-6 h-6 transition-all'
-            }`}
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z'
-            />
-          </svg>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z'
-            />
-          </svg>
-        </div>
-        <h3 className='font-semibold mt-2 text-sm'>
-          {likePost ? likesCount + 1 : likesCount} likes
-        </h3>
-      </div>
-      {/* end Like */}
 
-      <div className='p-3 flex items-center relative'>
-        <input
-          className='pt-2 pb-2 pl-3 w-full h-11 bg-gray-100 dark:bg-slate-600 rounded-lg placeholder:text-slate-600 dark:placeholder:text-slate-300 font-medium pr-20'
-          type='text'
-          placeholder='Write a comment'
-        />
-        <span className='flex absolute right-3 top-2/4 -mt-3 items-center px-3'>
-          <svg
-            aria-hidden='true'
-            className='w-6 h-6 rotate-90'
-            fill='currentColor'
-            viewBox='0 0 20 20'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z'></path>
-          </svg>
-        </span>
-      </div>
+
+
+
+
+<div className=''>
+              <div className='flex max-w-xl my-10 bg-white shadow-md rounded-lg overflow-hidden mx-auto'>
+                <div className='flex items-center w-full'>
+                  <div className='w-full'>
+                    <div className='flex flex-row mt-2 px-2 py-3 mx-3'>
+                      <div className='w-auto h-auto rounded-full border-2 border-pink-500'>
+                        <img
+                          className='w-12 h-12 object-cover rounded-full shadow cursor-pointer'
+                          alt='User avatar'
+                          src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'
+                        />
+                      </div>
+                      <div className='flex flex-col mb-2 ml-4 mt-1'>
+                        <div className='text-gray-600 text-sm font-semibold'>
+                          {name}
+                        </div>
+                        <div className='flex w-full mt-1'>
+                          <div className='text-blue-700 font-base text-xs mr-1 cursor-pointer'>
+                            UX Design
+                          </div>
+                          <div className='text-gray-400 font-thin text-xs'>
+                            • 30 seconds ago
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='border-b border-gray-100'></div>
+                    <div className='text-gray-400 font-medium text-sm mb-7 mt-6 mx-3 px-2'>
+                      <img
+                        className='rounded'
+                        src='https://picsum.photos/536/354'
+                      />
+                    </div>
+                    <div className='text-gray-600 font-semibold text-lg mb-2 mx-3 px-2'>
+                      Dummy text of the printing and typesetting industry
+                    </div>
+                    <div className='text-gray-500 font-thin text-sm mb-6 mx-3 px-2'>
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industrys
+                      standard dummy text ever since the 1500
+                    </div>
+
+                    <div className='flex w-full border-t border-gray-100'>
+                      <div className='mt-3 mx-5 flex flex-row'>
+                        <div className='flex text-gray-700 font-normal text-sm rounded-md mb-2 mr-4 items-center'>
+                          Comments:
+                          <div className='ml-1 text-gray-400 font-thin text-ms'>
+                            {' '}
+                            30
+                          </div>
+                        </div>
+                        <div className='flex text-gray-700 font-normal text-sm rounded-md mb-2 mr-4 items-center'>
+                          Views:{' '}
+                          <div className='ml-1 text-gray-400 font-thin text-ms'>
+                            {' '}
+                            60k
+                          </div>
+                        </div>
+                      </div>
+                      <div className='mt-3 mx-5 w-full flex justify-end'>
+                        <div className='flex text-gray-700 font-normal text-sm rounded-md mb-2 mr-4 items-center'>
+                          Likes:{' '}
+                          <div className='ml-1 text-gray-400 font-thin text-ms'>
+                            {' '}
+                            {likesCount}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400'>
+                      <img
+                        className='w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer'
+                        alt='User avatar'
+                        src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'
+                      />
+                      <span className='absolute inset-y-0 right-0 flex items-center pr-6'>
+                        <button
+                          type='submit'
+                          className='p-1 focus:outline-none focus:shadow-none hover:text-blue-500'
+                        >
+                          <svg
+                            className='w-6 h-6 transition ease-out duration-300 hover:text-blue-500 text-gray-400'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke='currentColor'
+                          >
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth='2'
+                              d='M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                      <input
+                        type='search'
+                        className='w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-blue-500 focus:text-gray-900 focus:shadow-outline-blue'
+                        placeholder='Post a comment...'
+                        autoComplete='off'
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
     </div>
   );
 };
