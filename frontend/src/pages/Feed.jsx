@@ -7,26 +7,34 @@ import axios from 'axios';
 import Panel from '../components/Panel';
 
 const Feed = () => {
-  const { port, user } = useContext(AppContext);
-  const [posts, setPosts] = useState([]);
+  const { port, user, posts, setPosts, setUser } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
     const apiEndPoint = `${port}/api/v1/post/all`;
-    axios.get(apiEndPoint, {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      })
-      .then((response) => {
-        setPosts(response.data.data);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+    const getData = () => {
+      axios
+        .get(apiEndPoint, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setLoading(false);
+          setPosts(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    if (user) {
+      setTimeout(() => {
+        getData();
+      }, 2000);
+    }
+  }, [user, setUser]);
   return (
     <main className='w-full relative h-full flex overflow-hidden justify-around'>
       {loading ? (
@@ -35,7 +43,7 @@ const Feed = () => {
         </div>
       ) : (
         <section className=' overflow-scroll pt-10'>
-          <BibleStorysScroll />
+          <Panel />
           <section className='w-full flex flex-col items-center'>
             {posts.length >= 1 ? (
               posts.map((post, index) => {
@@ -63,7 +71,6 @@ const Feed = () => {
           </section>
         </section>
       )}
-      <Panel />
     </main>
   );
 };

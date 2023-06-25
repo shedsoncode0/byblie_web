@@ -24,9 +24,10 @@ const getAllUserPost = async (req, res) => {
  * @access Private
  */
 const getAllPost = async (req, res) => {
-  const posts = await Post.find().sort({
-    createdAt: -1,
-  });
+  const posts = await Post.find();
+  // .sort({
+  //   createdAt: -1,
+  // });
   try {
     res.status(200).json({ status: true, data: posts });
   } catch (error) {

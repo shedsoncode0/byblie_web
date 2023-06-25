@@ -1,25 +1,57 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import BottomNav from './BottomNav';
 import { AiOutlineHome } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
-import { IoEarthOutline } from 'react-icons/io5';
 import { BsPencilSquare } from 'react-icons/bs';
 import { BiMessageSquareDetail, BiUserCircle } from 'react-icons/bi';
+import { RiNotificationLine } from 'react-icons/ri';
 import { Link, useHref } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
 import HomeNavbar from './navbars/HomeNavbar';
 import ProfileNavbar from './navbars/ProfileNavbar';
 import CreatePageNavbar from './navbars/CreatePageNavbar';
+import CreatePopup from './popups/CreatePopup';
+
+const links = [
+  { name: 'Home', to: 'feed', icon: <AiOutlineHome size={27} /> },
+  { name: 'Search', to: 'search', icon: <FiSearch size={27} /> },
+  {
+    name: 'Notifications',
+    to: 'notifications',
+    icon: <RiNotificationLine size={27} />,
+  },
+  {
+    name: 'Messages',
+    to: 'message',
+    icon: <BiMessageSquareDetail size={27} />,
+  },
+  { name: 'Profile', to: 'profile', icon: <BiUserCircle size={27} /> },
+];
+
+const buttonStatus = {
+  active:
+    'flex text-[17px] items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white',
+  unActive:
+    'flex text-[17px] items-center gap-x-3.5 py-2 px-2.5  text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white',
+};
 
 const Navbar = ({ children }) => {
-  const { signedIn } = useContext(AppContext);
+  const { signedIn, user } = useContext(AppContext);
+  const [isLogedIn, setIsLogedIn] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [navbarRoute, setNavbeRoute] = useState('');
+
   let routeName = useHref();
+
+  const navbarActiveStatus = (value) => {
+    setNavbeRoute(value);
+  };
   return (
     <div className='flex h-full'>
-      {!signedIn && (
+      {signedIn && (
         <div
           id='application-sidebar'
-          className='hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden h-full top-0 left-0 bottom-0 z-[60] w-64 bg-white border-r border-gray-200 pt-7 pb-10 overflow-y-auto scrollbar-y lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:scrollbar-y dark:bg-gray-800 dark:border-gray-700'
+          className='hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden space-y-5 h-full top-0 left-0 bottom-0 z-[50] w-[300px] bg-white border-r border-gray-200 pt-10 pb-10 overflow-y-auto scrollbar-y lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:scrollbar-y dark:bg-gray-800 dark:border-gray-700'
         >
           <Link to='/' className='px-6'>
             <a
@@ -35,70 +67,29 @@ const Navbar = ({ children }) => {
             className='hs-accordion-group relative p-6 w-full flex flex-col flex-wrap'
             data-hs-accordion-always-open
           >
-            <ul className='space-y-1.5'>
-              <Link to='feed'>
-                <a
-                  className='flex text-[17px] items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white'
-                  href='javascript:;'
+            <ul className='space-y-2 flex flex-col'>
+              {links.map((items, index) => (
+                <Link
+                  className={
+                    navbarRoute === items.to
+                      ? buttonStatus.active
+                      : buttonStatus.unActive
+                  }
+                  to={items.to}
+                  key={index}
+                  onClick={() => navbarActiveStatus(items.to)}
                 >
-                  <AiOutlineHome size={27} />
-                  Home
-                </a>
-              </Link>
-
-              <Link to='search' className='hs-accordion' id='users-accordion'>
-                <a
-                  className='hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white'
-                  href='javascript:;'
-                >
-                  <FiSearch size={27} />
-                  Search
-                </a>
-              </Link>
-
-              <Link to='Explor' className='hs-accordion' id='account-accordion'>
-                <a
-                  className='hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white'
-                  href='javascript:;'
-                >
-                  <IoEarthOutline size={27} />
-                  Explore
-                </a>
-              </Link>
-
-              <Link
-                to='message'
-                className='hs-accordion'
-                id='account-accordion'
-              >
-                <a
-                  className='hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white'
-                  href='javascript:;'
-                >
-                  <BiMessageSquareDetail size={27} />
-                  Messages
-                </a>
-              </Link>
-
-              <Link
-                to='profile'
-                className='hs-accordion'
-                id='projects-accordion'
-              >
-                <a
-                  className='hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white'
-                  href='javascript:;'
-                >
-                  <BiUserCircle size={27} />
-                  Profile
-                </a>
-              </Link>
+                  {items.icon}
+                  {items.name}
+                </Link>
+              ))}
             </ul>
           </nav>
+
           <div className='w-full absolute bottom-10 flex justify-center px-10'>
             <Link
-              to='create'
               type='button'
+              onClick={() => setShowPopup(!showPopup)}
               className='py-3 w-full px-4 inline-flex justify-center items-center gap-2 rounded-full border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800'
             >
               <BsPencilSquare size={20} />
@@ -111,7 +102,7 @@ const Navbar = ({ children }) => {
 
   // <!-- Content --> */}
       <div className='w-full'>
-        <div className='w-full border-b bottom-[3px] border-gray-200 block lg:hidden px-4 lg:px-6 py-3'>
+        <div className='w-full fixed border-b z-40 top-0 border-gray-200 bg-white block lg:hidden px-4 lg:px-6 py-3'>
           {routeName === '/feed' ? <HomeNavbar /> : null}
           {routeName === '/profile' ? <ProfileNavbar /> : null}
           {routeName === '/create' ? <CreatePageNavbar /> : null}
@@ -125,6 +116,8 @@ const Navbar = ({ children }) => {
           <BottomNav />
         </div>
       )}
+
+      <CreatePopup setShowPopup={setShowPopup} showPopup={showPopup} />
     </div>
 
     // <!-- ========== END MAIN CONTENT ========== -->

@@ -44,8 +44,8 @@ const Hero = () => {
     {/* <!-- End Buttons --> */}
     <Features />
     <Stats />
-    <Footer />
   </div>
+    <Footer />
 </div>
 // <!-- End Hero -->
   );

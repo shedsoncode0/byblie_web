@@ -1,3 +1,8 @@
+// Images
+import Image1 from '../assets/images/image2.jpg'
+import Image2 from '../assets/images/image3.jpg'
+import Image4 from '../assets/images/image4.jpeg'
+
 const Features = () => {
   return (
     // <!-- Features -->
@@ -8,17 +13,17 @@ const Features = () => {
       {/* <!-- Grid --> */}
       <div className="grid grid-cols-12 gap-2 sm:gap-6 items-center lg:-translate-x-10">
         <div className="col-span-4">
-          <img className="rounded-xl" src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1981&q=80" alt="Image Description" />
+          <img className="rounded-xl" src={Image4} alt="Image Description" />
         </div>
         {/* <!-- End Col --> */}
 
         <div className="col-span-3">
-          <img className="rounded-xl" src="https://images.unsplash.com/photo-1605629921711-2f6b00c6bbf4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80" alt="Image Description" />
+          <img className="rounded-xl" src={Image1} alt="Image Description" />
         </div>
         {/* <!-- End Col --> */}
 
         <div className="col-span-5">
-          <img className="rounded-xl" src="https://images.unsplash.com/photo-1600194992440-50b26e0a0309?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80" alt="Image Description" />
+          <img className="rounded-xl" src={Image2} alt="Image Description" />
         </div>
         {/* <!-- End Col --> */}
       </div>
