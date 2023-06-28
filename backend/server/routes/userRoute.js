@@ -10,7 +10,7 @@ const {
 const { verifyAccessToken } = require('../../utils/jwt');
 
 // Update User
-router.get('/all', verifyAccessToken, getAllUser);
+router.get('/all', getAllUser);
 
 // Update User
 router.put('/:id', update);
@@ -22,9 +22,9 @@ router.delete('/:id', deleteUser);
 router.get('/:id', getUser);
 
 // friend a user
-router.post('/addFriend', sendFriendRequest);
+router.post('/addFriend', verifyAccessToken, sendFriendRequest);
 
 // unfriend a user
-router.post('/unfriend', unfriendUser);
+router.post('/unfriend', verifyAccessToken, unfriendUser);
 
 module.exports = router;

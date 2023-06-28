@@ -20,13 +20,12 @@ const Profile = () => {
               {/* <!-- profile image --> */}
               <img
                 className='w-20 h-20 md:w-40 md:h-40 object-cover rounded-full
-                   border-2 border-pink-600 p-1'
-                src={userAvatar.toDataUriSync()}
+                   border-2 border-blue-600 p-1'
+                src={`${userAvatar}`}
                 alt='profile'
               />
-              {userAvatar.svg}
+              
             </div>
-
             {/* <!-- profile meta --> */}
             <div className='w-8/12 md:w-7/12 ml-4'>
               <div className='md:flex md:flex-wrap md:items-center mb-4'>

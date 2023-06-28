@@ -23,9 +23,6 @@ const PostSchema = new mongoose.Schema(
     profileImage: {
       type: String,
     },
-    textColor: {
-      type: String,
-    },
     likes: {
       type: Array,
       default: [],

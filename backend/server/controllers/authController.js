@@ -48,7 +48,7 @@ const register = async (req, res) => {
     const refreshToken = signRefreshToken(savedUser._id);
 
     res.status(201).json({
-      // id: savedUser._id,
+      userId: savedUser._id,
       // fullname: savedUser.fullname,
       // email: savedUser.email,
       accessToken: accessToken,
@@ -81,11 +81,16 @@ const login = async (req, res) => {
     }
 
     // Checking if the user password is correct
-    const checkPassword = bcrypt.compare(password, user.password);
+    const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
       res.status(401).json('Username/password not valid');
       return;
     }
+
+    // if (password != user.password) {
+    //   res.status(401).json('Username/password not valid');
+    //   return;
+    // }
 
     // Generating JWT Tokens
     const accessToken = signAccessToken(user._id);

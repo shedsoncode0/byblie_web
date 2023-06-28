@@ -3,7 +3,11 @@ import BottomNav from './BottomNav';
 import { AiOutlineHome } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { BsPencilSquare } from 'react-icons/bs';
-import { BiMessageSquareDetail, BiUserCircle } from 'react-icons/bi';
+import {
+  BiMessageSquareDetail,
+  BiUserCircle,
+  BiHomeAlt2,
+} from 'react-icons/bi';
 import { RiNotificationLine } from 'react-icons/ri';
 import { Link, useHref } from 'react-router-dom';
 import { AppContext } from '../contexts/AppContext';
@@ -11,9 +15,10 @@ import HomeNavbar from './navbars/HomeNavbar';
 import ProfileNavbar from './navbars/ProfileNavbar';
 import CreatePageNavbar from './navbars/CreatePageNavbar';
 import CreatePopup from './popups/CreatePopup';
+import axios from 'axios';
 
 const links = [
-  { name: 'Home', to: 'feed', icon: <AiOutlineHome size={27} /> },
+  { name: 'Home', to: 'feed', icon: <BiHomeAlt2 size={27} /> },
   { name: 'Search', to: 'search', icon: <FiSearch size={27} /> },
   {
     name: 'Notifications',
@@ -36,7 +41,8 @@ const buttonStatus = {
 };
 
 const Navbar = ({ children }) => {
-  const { signedIn, user } = useContext(AppContext);
+  const { signedIn, user, port, setUserDetails, userDetails, posts } =
+    useContext(AppContext);
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [navbarRoute, setNavbeRoute] = useState('');
@@ -46,9 +52,30 @@ const Navbar = ({ children }) => {
   const navbarActiveStatus = (value) => {
     setNavbeRoute(value);
   };
+
+  useEffect(() => {
+    const getUserDetails = () => {
+      const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
+      axios
+        .get(apiEndPoint)
+        .then((response) => {
+          setUserDetails(response.data);
+          console.log(userDetails);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    if (user.userId) {
+      getUserDetails();
+    }
+  }, []);
+
   return (
     <div className='flex h-full'>
-      {signedIn && (
+      {routeName !== '/' &&
+      routeName !== '/login' &&
+      routeName !== '/signup' ? (
         <div
           id='application-sidebar'
           className='hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden space-y-5 h-full top-0 left-0 bottom-0 z-[50] w-[300px] bg-white border-r border-gray-200 pt-10 pb-10 overflow-y-auto scrollbar-y lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:scrollbar-y dark:bg-gray-800 dark:border-gray-700'
@@ -97,7 +124,7 @@ const Navbar = ({ children }) => {
             </Link>
           </div>
         </div>
-      )}
+      ) : null}
       {/* // <!-- End Sidebar -->
 
   // <!-- Content --> */}

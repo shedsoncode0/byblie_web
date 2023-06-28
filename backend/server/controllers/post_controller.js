@@ -45,7 +45,6 @@ const createPost = async (req, res) => {
   const {
     description,
     bgColor,
-    textColor,
     text,
     username,
     name,
@@ -66,7 +65,6 @@ const createPost = async (req, res) => {
       description,
       text,
       bgColor,
-      textColor,
       profileImage,
       username,
       name,

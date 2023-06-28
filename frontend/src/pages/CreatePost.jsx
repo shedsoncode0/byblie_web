@@ -8,7 +8,7 @@ const CreatePost = () => {
     description: '',
     text: '',
     bgColor: '',
-    textColor: '',
+    textColor: 'white',
   });
   const [textBgColor, setTextBgColor] = useState('');
   const [tetxColor, setTextColor] = useState('black');
@@ -267,31 +267,24 @@ const CreatePost = () => {
               <label htmlFor='editor' className='sr-only'>
                 Publish post
               </label>
-              <textarea
-                id='editor'
-                rows='8'
-                className='block text-center w-full px-0 text-lg text-gray-800 border-0 dark:bg-gray-800 border-none outline-none focus:ring-0 dark:text-white dark:placeholder-gray-400'
-                placeholder="What's on your mind..."
-                style={{ backgroundColor: post.bgColor }}
-                required
-              ></textarea>
+              
             </div>
             <div className='w-full my-3 p-2 gap-2 flex items-center justify-between'>
               <div className='flex gap-2 items-center'>
                 <div
-                  onClick={() => handleBgColorchange('rgb(37, 99, 235)')}
+                  onClick={() => handleBgColorchange('#2563eb')}
                   className='h-10 w-10 rounded-md bg-blue-600'
                 ></div>
                 <div
-                  onClick={() => handleBgColorchange('rgb(236, 72, 153')}
+                  onClick={() => handleBgColorchange('#ec4899')}
                   className='h-10 w-10 rounded-md bg-pink-500'
                 ></div>
                 <div
-                  onClick={() => handleBgColorchange('rgb(71, 85, 105)')}
+                  onClick={() => handleBgColorchange('#475569')}
                   className='h-10 w-10 rounded-md bg-slate-600'
                 ></div>
                 <div
-                  onClick={() => handleBgColorchange('rgb(101, 163, 13)')}
+                  onClick={() => handleBgColorchange('#65a30d')}
                   className='h-10 w-10 rounded-md bg-lime-600'
                 ></div>
               </div>

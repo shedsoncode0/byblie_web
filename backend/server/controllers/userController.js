@@ -104,7 +104,8 @@ const getUser = async (req, res) => {
  */
 const sendFriendRequest = async (req, res) => {
   // Get all the user details from the request Body
-  let { userId, personId } = req.body;
+  let { personId } = req.body;
+  const userId = req.user.id;
 
   if (!userId || !personId) {
     res.status(500).json({
@@ -151,7 +152,8 @@ const sendFriendRequest = async (req, res) => {
 // UnFriend a user
 const unfriendUser = async (req, res) => {
   // Get all the user details from the request Body
-  let { userId, personId } = req.body;
+  let { personId } = req.body;
+  const userId = req.user.id;
 
   if (!userId || !personId) {
     res.status(500).json({

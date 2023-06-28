@@ -28,7 +28,15 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    number: {
+    gender: {
+      type: String,
+      default: '',
+    },
+    username: {
+      type: String,
+      default: '',
+    },
+    profileImage: {
       type: String,
       default: '',
     },

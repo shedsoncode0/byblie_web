@@ -1,3 +1,7 @@
 .bible_story_scroll::-webkit-scrollbar {
     display: none;
 }
+
+.m {
+    color: #2563eb;
+}

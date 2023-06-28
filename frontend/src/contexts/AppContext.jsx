@@ -1,47 +1,47 @@
 import { createContext, useEffect, useState } from 'react';
 import { createAvatar } from '@dicebear/core';
 import { adventurer } from '@dicebear/collection';
+import axios from 'axios';
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
-  const [user, setUser] = useState(false);
-  const [showToast, setShowToast] = useState(true);
+  let [userDetails, setUserDetails] = useState({});
+  let user;
+  const [showToast, setShowToast] = useState(false);
   const [posts, setPosts] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
   const port = 'http://localhost:5000';
 
-  //Theme Var
-  const userTheme = window.localStorage.getItem('theme');
-  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [toast, setToast] = useState({
+    text: '',
+    icon: null,
+    status: '',
+  });
 
   // Save user token to LocalStorage
-
+  user = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     setSignedIn(JSON.parse(localStorage.getItem('signedIn')));
-    setUser(JSON.parse(localStorage.getItem('user')));
-  }, [signedIn, setUser]);
-
-  // const handleDarkMode = () => {
-  //   if (document.documentElement.classList.contains('dark')) {
-  //     document.documentElement.classList.remove('dark');
-  //     setDarkMode(false);
-  //   } else {
-  //     document.documentElement.classList.add('dark');
-  //     setDarkMode(true);
-  //   }
-  // };
-
-  // const signedInState = (value) => {
-  //   localStorage.setItem('signedIn', JSON.parse(value));
-  // };
+  }, [signedIn]);
 
   // useEffect(() => {
-  //   signedInState('false');
-  //   // setSignedIn(JSON.stringify(localStorage.getItem('signedIn')));
-  //   setSignedIn(false);
-  //   console.log(signedIn);
+  //   const getUserDetails = () => {
+  //     const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
+  //     axios
+  //       .get(apiEndPoint)
+  //       .then((response) => {
+  //         setPosts(response.data.fullname);
+  //         console.log(response.data);
+  //         console.log(posts);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+
+  //   getUserDetails()
   // }, []);
 
   const generateRandomNum = (value) => {
@@ -81,8 +81,9 @@ export const AppProvider = ({ children }) => {
   const avatar = createAvatar(adventurer, {
     seed: 'Felix',
     backgroundColor: ['b6e3f4', 'c0aede', 'd1d4f9'],
-    earrings:
-      [femaleAvatar.earrings[generateRandomNum(femaleAvatar.earrings.length)]],
+    earrings: [
+      femaleAvatar.earrings[generateRandomNum(femaleAvatar.earrings.length)],
+    ],
     eyebrows: [`variant0${generateRandomNum(3)}`],
     eyes: [femaleAvatar.eyes[generateRandomNum(femaleAvatar.eyes.length)]],
     glasses: ['variant01', 'variant02', 'variant03'],
@@ -94,9 +95,7 @@ export const AppProvider = ({ children }) => {
     // ... options
   });
 
-
-
-  const userAvatar = avatar;
+  const userAvatar = avatar.toDataUriSync();
 
   return (
     <AppContext.Provider
@@ -110,7 +109,11 @@ export const AppProvider = ({ children }) => {
         setPosts,
         userAvatar,
         showToast,
-        setShowToast
+        setShowToast,
+        toast,
+        setToast,
+        userDetails,
+        setUserDetails,
       }}
     >
       {children}

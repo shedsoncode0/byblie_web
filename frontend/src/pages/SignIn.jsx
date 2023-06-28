@@ -4,10 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import Input from '../components/Input';
 import { useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
+import { FaWifi, FaCheck } from 'react-icons/fa';
+import Toast from '../components/toasts/Toast';
+import Spinner from '../components/Spinner';
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { port } = useContext(AppContext);
+  const { port, setShowToast, setToast } = useContext(AppContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [userDetails, setUserDetails] = useState({
     email: '',
     password: '',
@@ -19,6 +23,7 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const apiEndPoint = `${port}/api/v1/auth/login`;
     const userInformation = {
       email: userDetails.email,
@@ -31,10 +36,24 @@ const SignIn = () => {
         localStorage.setItem('user', JSON.stringify(response.data));
         localStorage.setItem('signedIn', JSON.stringify(true));
         console.log(response.data);
+        setShowToast(true);
+        setToast({
+          text: 'logged in successfull',
+          icon: <FaCheck />,
+          status: 'success',
+        });
+        setIsLoading(false);
         navigate('/feed');
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
+        setShowToast(true);
+        setToast({
+          text: error.response.data ? error.response.data : error.message,
+          icon: <FaWifi />,
+          status: 'error',
+        });
       });
   };
 
@@ -214,7 +233,7 @@ const SignIn = () => {
                   type='submit'
                   className='py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800'
                 >
-                  Sign in
+                  {isLoading ? <Spinner /> : ' Sign in'}
                 </button>
               </div>
             </form>

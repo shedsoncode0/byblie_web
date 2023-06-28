@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../contexts/AppContext';
+import Image4 from '../../assets/images/image4.jpeg'
 
 const PostCard = ({
   userImage,
@@ -18,7 +19,7 @@ const PostCard = ({
 }) => {
   const [likes, setLikes] = useState(likesObject);
   const [likePost, setLikePost] = useState(false);
-  const { port, user } = useContext(AppContext);
+  const { port, user, userAvatar } = useContext(AppContext);
 
   useEffect(() => {
     likes.forEach((like) => {
@@ -29,32 +30,31 @@ const PostCard = ({
   }, []);
 
   // Send a request to like post or unlike post
-  // useEffect(() => {
-  //   const apiEndPointLikePost = `${port}/api/v1/post/like`;
-  //   const apiEndPointUnLikePost = `${port}/api/v1/post/unlike`;
+  useEffect(() => {
+    const apiEndPointLikePost = `${port}/api/v1/post/like`;
+    const apiEndPointUnLikePost = `${port}/api/v1/post/unlike`;
 
-  //   const detailsToLikePost = {
-  //     postId,
-  //     username,
-  //     name,
-  //     userImage,
-  //   };
-  //   console.log(detailsToLikePost);
+    const detailsToLikePost = {
+      postId,
+      username,
+      name,
+      userImage,
+    };
 
-  //   if (likePost) {
-  //     axios.post(apiEndPointLikePost, detailsToLikePost, {
-  //         headers: {
-  //           Authorization: `Bearer ${user.userAccessToken}`,
-  //         },
-  //       })
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  // }, [likePost]);
+    if (likePost) {
+      axios.post(apiEndPointLikePost, detailsToLikePost, {
+          headers: {
+            Authorization: `Bearer ${user.userAccessToken}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
 
   const handleLike = () => {
     setLikePost(!likePost);
@@ -63,15 +63,15 @@ const PostCard = ({
   return (
     <div className=' w-full max-w-[500px] rounded-lg bg-white '>
       <div className=''>
-        <div className='flex max-w-xl my-10 bg-white border-2 border-gray-100 rounded-lg overflow-hidden mx-auto'>
+        <div className='flex max-w-xl mt-5 bg-white border-2 border-gray-100 rounded-lg overflow-hidden mx-auto'>
           <div className='flex items-center w-full'>
             <div className='w-full'>
-              <div className='flex flex-row mt-2 px-2 py-3 mx-3'>
+              <div className='flex flex-row p-3'>
                 <div className='w-auto h-auto rounded-full border-2 border-pink-500'>
                   <img
                     className='w-12 h-12 object-cover rounded-full shadow cursor-pointer'
                     alt='User avatar'
-                    src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'
+                    src={userAvatar}
                   />
                 </div>
                 <div className='flex items-center ml-4 '>
@@ -82,16 +82,15 @@ const PostCard = ({
                 </div>
               </div>
               {/* <div className='border-b border-gray-100'></div> */}
-              <div className='text-gray-400 font-medium text-sm mb-7 mt-6 mx-3 px-2'>
-                <img className='rounded' src='https://picsum.photos/536/354' />
+              <div onDoubleClick={() => setLikePost(!likePost)} style={{backgroundColor: bgColor, color: textColor}} className='text-gray-400 font-medium flex justify-center items-center w-full h-[250px] text-md px-3'>
+                {/* <img className='rounded h-[300px] w-full object-cover' src={Image4} /> */}
+                {text}
               </div>
               {/* <div className='text-gray-600 font-semibold text-lg mb-2 mx-3 px-2'>
                 Dummy text of the printing and typesetting industry
               </div> */}
-              <div className='text-gray-500 font-thin text-sm mb-6 mx-3 px-2'>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industrys standard dummy text
-                ever since the 1500
+              <div className='text-gray-500 font-normal text-sm p-3'>
+                {discription}
               </div>
 
               <div className='flex w-full border-t border-gray-100'>
@@ -125,7 +124,7 @@ const PostCard = ({
                 <img
                   className='w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer'
                   alt='User avatar'
-                  src='https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=200&q=200'
+                  src={Image4}
                 />
                 <span className='absolute inset-y-0 right-0 flex items-center pr-6'>
                   <button
