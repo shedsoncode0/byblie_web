@@ -53,23 +53,23 @@ const Navbar = ({ children }) => {
     setNavbeRoute(value);
   };
 
-  useEffect(() => {
-    const getUserDetails = () => {
-      const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
-      axios
-        .get(apiEndPoint)
-        .then((response) => {
-          setUserDetails(response.data);
-          console.log(userDetails);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    if (user.userId) {
-      getUserDetails();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const getUserDetails = () => {
+  //     const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
+  //     axios
+  //       .get(apiEndPoint)
+  //       .then((response) => {
+  //         setUserDetails(response.data);
+  //         console.log(userDetails);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  //   if (user.userId) {
+  //     getUserDetails();
+  //   }
+  // }, []);
 
   return (
     <div className='flex h-full'>
