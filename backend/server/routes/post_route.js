@@ -16,8 +16,8 @@ const {
   uncommentPost,
 } = require('../controllers/post_controller');
 
-// Get all users podt
-router.get('/', verifyAccessToken, getAllUserPost);
+// Get all users pots
+router.get('/:id', getAllUserPost);
 
 // Get all posts
 router.get('/all', verifyAccessToken, getAllPost);

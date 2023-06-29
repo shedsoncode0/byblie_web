@@ -3,12 +3,34 @@ import { BiChurch } from 'react-icons/bi';
 import { GrLocation } from 'react-icons/gr';
 import { GiFamilyTree } from 'react-icons/gi';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import UserPost from '../components/UserPost';
+import axios from 'axios';
 
 const Profile = () => {
   const { userAvatar, port, user } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
+  const [userPosts, setUserPosts] = useState([]);
+
+  useEffect(() => {
+    const getUserPosts = () => {
+      const apiEndPoint = `${port}/api/v1/post/${user.userId}`;
+
+      axios
+        .get(apiEndPoint)
+        .then((response) => {
+          setLoading(false);
+          setUserPosts(response.data.data);
+          console.log(response);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+        });
+    };
+    getUserPosts();
+  }, []);
 
   return (
     <section className='h-full '>
@@ -128,7 +150,7 @@ const Profile = () => {
               </li>
             </ul>
             {/* <!-- flexbox grid --> */}
-            <UserPost />
+            <UserPost userPosts={userPosts}/>
           </div>
         </div>
       </main>

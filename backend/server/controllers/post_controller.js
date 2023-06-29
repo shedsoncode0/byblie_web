@@ -7,8 +7,9 @@ const User = require('../models/UserModel');
  * @access Private
  */
 const getAllUserPost = async (req, res) => {
+  const { id } = req.params;
   try {
-    const posts = await Post.find({ user: req.user.id }).sort({
+    const posts = await Post.find({ user: id }).sort({
       createdAt: -1,
     });
     res.status(200).json({ status: true, data: posts });

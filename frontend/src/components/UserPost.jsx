@@ -3,33 +3,8 @@ import { AppContext } from '../contexts/AppContext';
 import axios from 'axios';
 import { RiH1 } from 'react-icons/ri';
 
-const UserPost = () => {
+const UserPost = ({userPosts}) => {
   const { port, user } = useContext(AppContext);
-  const [loading, setLoading] = useState(false);
-  const [userPosts, setUserPosts] = useState([]);
-
-  useEffect(() => {
-    const getUserPosts = () => {
-      const apiEndPoint = `${port}/api/v1/post`;
-
-      axios
-        .get(apiEndPoint, {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-        })
-        .then((response) => {
-          setLoading(false);
-          setUserPosts(response.data.data);
-          console.log(response);
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-        });
-    };
-    getUserPosts();
-  }, []);
 
   return (
     <div className='flex flex-wrap -mx-px md:-mx-3'>
