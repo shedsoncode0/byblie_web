@@ -8,8 +8,9 @@ const Search = () => {
   const { port, user, userAvatar, setShowToast, setToast } =
     useContext(AppContext);
   const [users, setUsers] = useState([]);
-  const [fillterdUsers, setFillterdUsers] = useState([]);
+
   const [searchValue, setSearchValue] = useState('');
+  const [filterdData, setFilterdData] = useState([]);
 
   // Send a request to get all users
   const userId = user.userId;
@@ -90,6 +91,15 @@ const Search = () => {
       });
   };
 
+  const handleSearch = (e) => {
+    const searchWord = e.target.value;
+    setSearchValue(searchWord);
+    const newFilter = users.filter((value) => {
+      return value.fullname.includes(searchWord);
+    });
+    setFilterdData(newFilter);
+  };
+
   return (
     <section className='w-full h-full p-5 flex items-center flex-col'>
       <div className='w-full max-w-4xl'>
@@ -119,7 +129,7 @@ const Search = () => {
               </svg>
             </div>
             <input
-              onChange={(e) => hanndleSearch(e)}
+              onChange={(e) => handleSearch(e)}
               value={searchValue}
               type='search'
               id='search'
@@ -131,7 +141,7 @@ const Search = () => {
         </form>
       </div>
       <div className='w-full max-w-4xl mt-10 '>
-        {users.map((person) => {
+        {filterdData.map((person) => {
           return (
             <div
               key={person._id}
