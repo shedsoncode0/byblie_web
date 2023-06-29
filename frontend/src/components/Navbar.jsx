@@ -128,8 +128,9 @@ const Navbar = ({ children }) => {
       {/* // <!-- End Sidebar -->
 
   // <!-- Content --> */}
+      {/* px-4 lg:px-6 py-3 */}
       <div className='w-full'>
-        <div className='w-full fixed border-b z-40 top-0 border-gray-200 bg-white block lg:hidden px-4 lg:px-6 py-3'>
+        <div className='w-full fixed border-b z-40 top-0 border-gray-200 bg-white block lg:hidden '>
           {routeName === '/feed' ? <HomeNavbar /> : null}
           {routeName === '/profile' ? <ProfileNavbar /> : null}
           {routeName === '/create' ? <CreatePageNavbar /> : null}
