@@ -49,8 +49,7 @@ const register = async (req, res) => {
 
     res.status(201).json({
       userId: savedUser._id,
-      // fullname: savedUser.fullname,
-      // email: savedUser.email,
+      userDetails: user,
       accessToken: accessToken,
       refreshToken: refreshToken,
     });
@@ -100,6 +99,7 @@ const login = async (req, res) => {
       userId: user._id,
       accessToken: accessToken,
       refreshToken: refreshToken,
+      userDetails: user,
     });
   } catch (error) {
     res.status(500).json(error.message);

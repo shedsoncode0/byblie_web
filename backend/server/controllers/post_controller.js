@@ -7,14 +7,13 @@ const User = require('../models/UserModel');
  * @access Private
  */
 const getAllUserPost = async (req, res) => {
-  const posts = await Post.find({ user: req.user.id }).sort({
-    createdAt: -1,
-  });
-
-  if (posts.length === 0) {
-    res.status(200).json({ message: 'user has no post' });
-  } else {
-    res.status(200).json(posts);
+  try {
+    const posts = await Post.find({ user: req.user.id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json({ status: true, data: posts });
+  } catch (error) {
+    res.status(401).json({ status: false, error });
   }
 };
 
@@ -24,7 +23,9 @@ const getAllUserPost = async (req, res) => {
  * @access Private
  */
 const getAllPost = async (req, res) => {
-  const posts = await Post.find();
+  const posts = await Post.find().sort({
+    createdAt: -1,
+  });
   // .sort({
   //   createdAt: -1,
   // });
@@ -42,14 +43,7 @@ const getAllPost = async (req, res) => {
  */
 const createPost = async (req, res) => {
   // Geting input from the request body
-  const {
-    description,
-    bgColor,
-    text,
-    username,
-    name,
-    profileImage,
-  } = req.body;
+  const { description, bgColor, text, username, name, profileImage } = req.body;
 
   if (!text || !username || !name || !profileImage) {
     res.status(401).json({

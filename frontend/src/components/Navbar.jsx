@@ -41,7 +41,7 @@ const buttonStatus = {
 };
 
 const Navbar = ({ children }) => {
-  const { signedIn, user, port, setUserDetails, userDetails, posts } =
+  const { signedIn, user, port, posts } =
     useContext(AppContext);
   const [isLogedIn, setIsLogedIn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);

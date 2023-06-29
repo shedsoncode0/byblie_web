@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import Button from '../components/buttons/Button';
 import { FaWifi, FaCheck } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Search = () => {
   const { port, user, userAvatar, setShowToast, setToast } =
@@ -144,7 +145,8 @@ const Search = () => {
       <div className='w-full max-w-4xl mt-10 '>
         {filterdData.map((person) => {
           return (
-            <div
+            <Link
+              to={`/person/${person._id}`}
               key={person._id}
               className='w-full p-3 h-20 border-b flex items-center hover:bg-gray-50 cursor-pointer transition-all gap-x-3'
             >
@@ -169,7 +171,7 @@ const Search = () => {
                   person.friends.includes(userId) ? 'friends' : 'add friend'
                 }
               />
-            </div>
+            </Link>
           );
         })}
       </div>

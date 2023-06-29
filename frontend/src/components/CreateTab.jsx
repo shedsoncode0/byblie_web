@@ -8,7 +8,7 @@ const CreateTab = () => {
   const { port, user, setShowToast, setToast } = useContext(AppContext);
   const [textBgColor, setTextBgColor] = useState('');
   const [post, setPost] = useState({
-    description: '',
+    description: 'More to come',
     text: '',
     bgColor: '#2563eb',
   });
@@ -29,8 +29,11 @@ const CreateTab = () => {
       description: post.description,
       text: post.text,
       bgColor: post.bgColor,
-      textColor: post.textColor,
+      username: 'abby', //userDetails.username
+      name: user.userDetails.fullname,
+      profileImage: 'userDetails.profileImage',
     };
+    console.log(postDetails);
 
     axios
       .post(apiEndPoint, postDetails, {
@@ -283,6 +286,10 @@ const CreateTab = () => {
                 placeholder="What's on your mind..."
                 style={{ backgroundColor: post.bgColor }}
                 required
+                value={post.text}
+                onChange={(e) =>
+                  setPost((prev) => ({ ...prev, text: e.target.value }))
+                }
               ></textarea>
             </div>
             <div className='w-full my-3 p-2 gap-2 flex items-center justify-between'>

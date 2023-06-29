@@ -3,12 +3,40 @@ import { BiChurch } from 'react-icons/bi';
 import { GrLocation } from 'react-icons/gr';
 import { GiFamilyTree } from 'react-icons/gi';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import UserPost from '../components/UserPost';
+import axios from 'axios';
+import { useParams } from 'react-router';
 
-const Profile = () => {
+const UserProfile = ({ match }) => {
   const { userAvatar, port, user } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getUser = () => {
+      const apiEndPoint = `${port}/api/v1/user/${id}`;
+
+      axios
+        .get(apiEndPoint, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+        .then((response) => {
+          setLoading(false);
+          //   setUserPosts(response.data.data);
+          console.log(response);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+        });
+    };
+    getUser();
+  }, []);
 
   return (
     <section className='h-full '>
@@ -46,11 +74,11 @@ const Profile = () => {
                 {/* <!-- follow button --> */}
                 <a
                   href='#'
-                  className=' bg-gray-200 px-2 py-1 
-                      text-black font-medium text-sm rounded block text-center 
-                      sm:inline-block'
+                  className='bg-blue-500 px-2 py-1 
+                      text-white font-semibold text-sm rounded block text-center 
+                      sm:inline-block block'
                 >
-                  Edit profile
+                  Follow
                 </a>
               </div>
 
@@ -136,4 +164,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;

@@ -14,6 +14,7 @@ const SignUp = () => {
   const [userDetails, setUserDetails] = useState({
     email: '',
     password: '',
+    fullname: '',
   });
 
   const handleChange = (e) => {
@@ -27,25 +28,24 @@ const SignUp = () => {
     const userInformation = {
       email: userDetails.email,
       password: userDetails.password,
-      fullname: 'shedrackaigbe',
+      fullname: userDetails.fullname,
     };
 
     axios
       .post(apiEndPoint, userInformation)
       .then((response) => {
-        setSignedIn(true);
-        setIsLoading(false);
         localStorage.setItem('user', JSON.stringify(response.data));
         localStorage.setItem('signedIn', JSON.stringify(true));
+        setSignedIn(true);
+        setIsLoading(false);
         setShowToast(true);
+        setIsLoading(false);
         setToast({
           text: 'signed in successfull',
           icon: <FaCheck />,
           status: 'success',
         });
-        setIsLoading(false);
         navigate('/feed');
-        console.log(response.data);
       })
       .catch((error) => {
         setIsLoading(false);

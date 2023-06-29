@@ -3,12 +3,11 @@ import { AppContext } from '../contexts/AppContext';
 import axios from 'axios';
 
 const CreatePost = () => {
-  const { port, user } = useContext(AppContext);
+  const { port, user, userDetails } = useContext(AppContext);
   const [post, setPost] = useState({
-    description: '',
+    description: 'more to come',
     text: '',
     bgColor: '',
-    textColor: 'white',
   });
   const [textBgColor, setTextBgColor] = useState('');
   const [tetxColor, setTextColor] = useState('black');
@@ -28,8 +27,11 @@ const CreatePost = () => {
       description: post.description,
       text: post.text,
       bgColor: post.bgColor,
-      textColor: post.textColor,
+      username: userDetails.username,
+      name: userDetails.fullname,
+      profileImage: userDetails.profileImage,
     };
+    console.log(postDetails)
 
     axios
       .post(apiEndPoint, postDetails, {
@@ -267,7 +269,6 @@ const CreatePost = () => {
               <label htmlFor='editor' className='sr-only'>
                 Publish post
               </label>
-              
             </div>
             <div className='w-full my-3 p-2 gap-2 flex items-center justify-between'>
               <div className='flex gap-2 items-center'>

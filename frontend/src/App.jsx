@@ -17,6 +17,7 @@ import Search from './pages/Search';
 import Message from './pages/Message';
 import { useContext, useEffect } from 'react';
 import { AppContext } from './contexts/AppContext';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   const { signedIn } = useContext(AppContext);
@@ -40,6 +41,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/feed' element={<Feed />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/person/:id' element={<UserProfile />} />
         <Route path='/message' element={<Message />} />
       </Routes>
     </>

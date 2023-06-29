@@ -7,12 +7,11 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
-  let [userDetails, setUserDetails] = useState({});
-  let user;
   const [showToast, setShowToast] = useState(false);
   const [posts, setPosts] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
   const port = 'http://localhost:5000';
+  let user;
 
   const [toast, setToast] = useState({
     text: '',
@@ -25,24 +24,6 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     setSignedIn(JSON.parse(localStorage.getItem('signedIn')));
   }, [signedIn]);
-
-  // useEffect(() => {
-  //   const getUserDetails = () => {
-  //     const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
-  //     axios
-  //       .get(apiEndPoint)
-  //       .then((response) => {
-  //         setPosts(response.data.fullname);
-  //         console.log(response.data);
-  //         console.log(posts);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-
-  //   getUserDetails()
-  // }, []);
 
   const generateRandomNum = (value) => {
     const random = Math.floor(Math.random() * value);
@@ -112,8 +93,6 @@ export const AppProvider = ({ children }) => {
         setShowToast,
         toast,
         setToast,
-        userDetails,
-        setUserDetails,
       }}
     >
       {children}

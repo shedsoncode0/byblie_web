@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import UserPost from '../components/UserPost';
 
-const Profile = () => {
+const Id = () => {
   const { userAvatar, port, user } = useContext(AppContext);
 
   return (
@@ -46,11 +46,11 @@ const Profile = () => {
                 {/* <!-- follow button --> */}
                 <a
                   href='#'
-                  className=' bg-gray-200 px-2 py-1 
-                      text-black font-medium text-sm rounded block text-center 
-                      sm:inline-block'
+                  className='bg-blue-500 px-2 py-1 
+                      text-white font-semibold text-sm rounded block text-center 
+                      sm:inline-block block'
                 >
-                  Edit profile
+                  Follow
                 </a>
               </div>
 
@@ -136,4 +136,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Id;

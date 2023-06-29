@@ -1,7 +1,7 @@
 const ProfileNavbar = () => {
   return (
     <>
-      <div className='flex justify-between items-center mx-auto max-w-screen-xl'>
+      <div className='flex justify-between items-center mx-auto max-w-screen-xl px-4 lg:px-6 py-3'>
         <a href='#' className='flex items-center'>
           {/* <img
             src='https://flowbite.com/docs/images/logo.svg'
