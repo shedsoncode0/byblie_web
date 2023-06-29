@@ -95,7 +95,7 @@ const Search = () => {
     const searchWord = e.target.value;
     setSearchValue(searchWord);
     const newFilter = users.filter((value) => {
-      return value.fullname.includes(searchWord);
+      return value.fullname.toLowerCase().includes(searchWord.toLowerCase());
     });
     setFilterdData(newFilter);
   };
@@ -136,6 +136,7 @@ const Search = () => {
               className='block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
               placeholder='Search'
               required
+              autoComplete='off'
             />
           </div>
         </form>
