@@ -20,10 +20,10 @@ const {
 router.get('/:id', getAllUserPost);
 
 // Get all posts
-router.get('/all', verifyAccessToken, getAllPost);
+router.get('/',  getAllPost);
 
 // Get all users Projects
-router.get('/:id', getSinglePost);
+router.get('/single/:id', getSinglePost);
 
 // Create Project
 router.post('/create', verifyAccessToken, createPost);

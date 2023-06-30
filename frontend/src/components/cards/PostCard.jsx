@@ -17,6 +17,7 @@ const PostCard = ({
   comments,
   likesObject,
   postId,
+  bgImage,
 }) => {
   const [likes, setLikes] = useState(likesObject);
   const [likePost, setLikePost] = useState(false);
@@ -62,6 +63,31 @@ const PostCard = ({
     setLikePost(!likePost);
   };
 
+  const handleComment = () => {
+    const apiEndPoint = `${port}/api/v1/post/comment`;
+
+    const commentDetails = {
+      postId: postId,
+      comment: "comment",
+      commenterId: user.userId,
+      commenterName: user.userDetails.Name,
+      commenterUsername: user.userDetails.username,
+      commenterProfileImage: user.userDetails.profileImage
+    };
+    axios
+      .post(apiEndPoint, commentDetails, {
+        headers: {
+          Authorization: `Bearer ${user.userAccessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className=' w-full max-w-[500px] rounded-lg bg-white '>
       <div className=''>
@@ -88,11 +114,13 @@ const PostCard = ({
                 style={{
                   backgroundColor: bgColor,
                   color: textColor ? textColor : 'white',
+                  backgroundImage: `url(${bgImage})`
                 }}
-                className='text-gray-400 font-medium flex justify-center items-center w-full h-[250px] text-md px-3'
+                className='text-gray-400 bg-cover font-medium flex justify-center items-center w-full h-[270px] text-md px-3'
               >
                 {/* <img className='rounded h-[300px] w-full object-cover' src={Image4} /> */}
-                {text}
+                <h1 style={{ textShadow: '5px 5px 9px #000' }} className="text-center font-semibold text-lg" >{text}</h1>
+                
               </div>
 
               <div className='text-gray-500 font-normal text-sm p-3'>
@@ -118,7 +146,7 @@ const PostCard = ({
                     </svg>
                     <div className='ml-1 text-gray-400 font-thin text-ms'>
                       {' '}
-                      30
+                      {comments.length}
                     </div>
                   </div>
                   <div className='flex text-gray-700 font-normal text-sm rounded-md mb-2 mr-4 items-center'>

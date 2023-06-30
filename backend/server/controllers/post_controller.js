@@ -27,9 +27,6 @@ const getAllPost = async (req, res) => {
   const posts = await Post.find().sort({
     createdAt: -1,
   });
-  // .sort({
-  //   createdAt: -1,
-  // });
   try {
     res.status(200).json({ status: true, data: posts });
   } catch (error) {
@@ -44,7 +41,7 @@ const getAllPost = async (req, res) => {
  */
 const createPost = async (req, res) => {
   // Geting input from the request body
-  const { description, bgColor, text, username, name, profileImage } = req.body;
+  const { description, bgColor, bgImage, text, username, name, profileImage } = req.body;
 
   if (!text || !username || !name || !profileImage) {
     res.status(401).json({
@@ -63,6 +60,7 @@ const createPost = async (req, res) => {
       profileImage,
       username,
       name,
+      bgImage
     });
 
     res.status(201).json({ createdPost });

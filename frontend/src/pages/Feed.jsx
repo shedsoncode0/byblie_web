@@ -7,20 +7,15 @@ import axios from 'axios';
 import Panel from '../components/Panel';
 
 const Feed = () => {
-  const { port, user, posts, setPosts, userDetails, setUserDetails } =
-    useContext(AppContext);
+  const { port, user, posts, setPosts, userDetails, setUserDetails } = useContext(AppContext);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    const apiEndPoint = `${port}/api/v1/post/all`;
+    const apiEndPoint = `${port}/api/v1/post`;
     const getData = () => {
       axios
-        .get(apiEndPoint, {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`,
-          },
-        })
+        .get(apiEndPoint)
         .then((response) => {
           console.log(response);
           setLoading(false);
@@ -32,26 +27,9 @@ const Feed = () => {
         });
     };
 
-    const getUserDetails = () => {
-      const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
-      axios
-        .get(apiEndPoint)
-        .then((response) => {
-          setUserDetails(response.data);
-          console.log(response.data);
-          console.log(userDetails);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    if (user) {
-      getUserDetails();
-    }
-    // setTimeout(() => {
-      getData();
-    // }, 2000);
+    getData();
   }, []);
+
   return (
     <main className='w-full relative h-full flex overflow-hidden justify-around'>
       {loading ? (
@@ -69,6 +47,7 @@ const Feed = () => {
                   <PostCard
                     key={index}
                     bgColor={post.bgColor}
+                    bgImage={post.bgImage}
                     textColor={post.textColor}
                     discription={post.description}
                     likesCount={post.likes.length}

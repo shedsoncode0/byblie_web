@@ -14,10 +14,10 @@ const UserPost = ({userPosts}) => {
             <a href='#'>
               <article className='post bg-gray-900 text-white relative pb-full md:mb-6'>
                 <div
-                  className={`w-full h-full grid place-content-center absolute left-0 top-0 object-cover`}
-                  style={{ backgroundColor: post.bgColor }}
+                  className={`w-full h-full bg-cover grid place-content-center absolute left-0 top-0 object-cover`}
+                  style={{ backgroundColor: post.bgColor, backgroundImage: `url(${post.bgImage})` }}
                 >
-                  <h1 className='text-center p-2 lg:text-lg text-sm'>
+                  <h1 style={{ textShadow: '5px 5px 9px #000' }} className='text-center p-2 lg:text-lg text-sm'>
                     {post.text}
                   </h1>
                 </div>

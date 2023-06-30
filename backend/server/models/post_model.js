@@ -12,6 +12,9 @@ const PostSchema = new mongoose.Schema(
     bgColor: {
       type: String,
     },
+    bgImage: {
+      type: String,
+    },
     username: {
       type: String,
       required: true
