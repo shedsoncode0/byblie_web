@@ -5,23 +5,39 @@ import axios from "axios";
 import ConversationCard from "../components/cards/ConversationCard";
 import SendMessageInput from "../components/inputs/SendMessageInput";
 import SendMessageHeader from "../components/SendMessageHeader";
+import MessageCard from "../components/cards/MessageBox";
 
 const Message = () => {
   const { user, port } = useContext(AppContext);
   const [conversations, setConversations] = useState([]);
+  const [currentChat, setCurrentChat] = useState(null);
+  const [messages, setMessages] = useState(null);
 
   useEffect(() => {
     const apiEndPoint = `${port}/api/v1/conversation/${user.userId}`;
     axios
       .get(apiEndPoint)
       .then((response) => {
-        console.log(response);
+        console.log(response.data.data);
         setConversations(response.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [user.userId]);
+
+  useEffect(() => {
+    const apiEndPoint = `${port}/api/v1/messages/${currentChat?._id}`;
+    axios
+      .get(apiEndPoint)
+      .then((response) => {
+        console.log(response.data);
+        setMessages(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [currentChat]);
 
   return (
     <div className="h-screen w-full flex antialiased text-gray-800 bg-white overflow-hidden">
@@ -63,17 +79,36 @@ const Message = () => {
             </div>
 
             <div className="contacts p-2 flex-1 overflow-y-scroll">
-              {conversations.map((conversation, index) => {
-                <ConversationCard key={index} conversation={conversation} />;
-              })}
+              {conversations.map((conversation, index) => (
+                <div onClick={() => setCurrentChat(conversation)}>
+                  <ConversationCard
+                    key={index}
+                    conversation={conversation}
+                    currentUser={user}
+                  />
+                </div>
+              ))}
             </div>
           </section>
-
           <section className="flex flex-col flex-auto border-l">
-            <SendMessageHeader />
-            <form>
-              <SendMessageInput />
-            </form>
+            {currentChat ? (
+              <>
+                <SendMessageHeader />
+                <div className="w-full flex-1 overflow-y-scroll overflow-x-hidden h-full p-3">
+                  {messages.map((m) => (
+                    <MessageCard message={m} own={m.sender === user._userId} />
+                  ))}
+                </div>
+                <form>
+                  <SendMessageInput />
+                </form>
+              </>
+            ) : (
+                <div className="w-full h-full flex-1 grid place-content-center p-3">
+
+                    <h3 className="font-medium text-3xl text-gray-200">Open a conversation to start a chat</h3>
+                </div>
+            )}
           </section>
         </main>
       </div>

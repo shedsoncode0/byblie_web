@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
   return (
     <div className='w-screen relative h-screen flex overflow-x-hidden flex-col items-center'>
       <Toast />
-      <div className='w-full h-full relative overflow-scroll'>
+      <div className='w-full h-full relative app_layout overflow-hidden'>
         <Navbar>{children}</Navbar>
       </div>
     </div>
