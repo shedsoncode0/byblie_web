@@ -41,9 +41,9 @@ const Profile = () => {
             <div className='md:w-3/12 md:ml-16'>
               {/* <!-- profile image --> */}
               <img
-                className='w-20 h-20 md:w-40 md:h-40 object-cover rounded-full
+                className='w-20 h-20 md:w-40 md:h-40 object-contain rounded-full
                    border-2 border-blue-600 p-1'
-                src={user.userDetails.profileImage}
+                src={user.userDetails.profileImage ? user.userDetails.profileImage : "/blank-profile-picture-973460_1280.png"}
                 alt='profile'
               />
             </div>

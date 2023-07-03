@@ -23,6 +23,7 @@ const PostCard = ({
 }) => {
   const [likes, setLikes] = useState(likesObject);
   const [likePost, setLikePost] = useState(false);
+  const [comment, setComment] = useState("");
   const [userAlreadyLikePost, setUserAlreadyLikePost] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const { port, user, userAvatar } = useContext(AppContext);
@@ -89,7 +90,7 @@ const PostCard = ({
 
     const commentDetails = {
       postId: postId,
-      comment: "comment",
+      comment: comment,
       commenterId: user.userId,
       commenterName: user.userDetails.fullname,
       commenterUsername: user.userDetails.username,
@@ -120,8 +121,12 @@ const PostCard = ({
                 <div className="w-auto h-auto rounded-full border-2 border-pink-500">
                   <img
                     className="w-12 h-12 object-cover rounded-full shadow cursor-pointer"
-                    alt="User avatar"
-                    src={userImage}
+                    alt=" "
+                    src={
+                      userImage
+                        ? userImage
+                        : "/blank-profile-picture-973460_1280.png"
+                    }
                   />
                 </div>
                 <div className="flex flex-col justify-center ml-4 ">
@@ -250,6 +255,8 @@ const PostCard = ({
                   className="w-full rounded-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400 focus:bg-white focus:outline-none focus:border-blue-500 focus:text-gray-900 focus:shadow-outline-blue"
                   placeholder="Post a comment..."
                   autoComplete="off"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                 />
               </div>
             </div>
