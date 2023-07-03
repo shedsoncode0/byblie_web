@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 
 import axios from "axios";
@@ -6,12 +6,20 @@ import ConversationCard from "../components/cards/ConversationCard";
 import SendMessageInput from "../components/inputs/SendMessageInput";
 import SendMessageHeader from "../components/SendMessageHeader";
 import MessageCard from "../components/cards/MessageBox";
+import { io } from "socket.io-client";
 
 const Message = () => {
   const { user, port } = useContext(AppContext);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const [newMessage, setNewMessage] = useState("");
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    setSocket(io("https://byblie.onrender.com:443"));
+  }, []);
 
   useEffect(() => {
     const apiEndPoint = `${port}/api/v1/conversation/${user.userId}`;
@@ -38,6 +46,36 @@ const Message = () => {
         console.log(error);
       });
   }, [currentChat]);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setNewMessage(value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const apiEndPoint = `${port}/api/v1/messages`;
+
+    const message = {
+      text: newMessage,
+      sender: user.userId,
+      conversationId: currentChat._id,
+    };
+
+    axios
+      .post(apiEndPoint, message)
+      .then((response) => {
+        console.log(response.data);
+        setMessages([...messages, response.data.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="h-screen w-full flex antialiased text-gray-800 bg-white overflow-hidden">
@@ -96,18 +134,25 @@ const Message = () => {
                 <SendMessageHeader />
                 <div className="w-full flex-1 overflow-y-scroll overflow-x-hidden h-full p-3">
                   {messages.map((m) => (
-                    <MessageCard message={m} own={m.sender === user._userId} />
+                    <div ref={scrollRef}>
+                      <MessageCard message={m} own={m.sender === user.userId} />
+                    </div>
                   ))}
                 </div>
                 <form>
-                  <SendMessageInput />
+                  <SendMessageInput
+                    handleSubmit={handleSubmit}
+                    value={newMessage}
+                    onChange={handleChange}
+                  />
                 </form>
               </>
             ) : (
-                <div className="w-full h-full flex-1 grid place-content-center p-3">
-
-                    <h3 className="font-medium text-3xl text-gray-200">Open a conversation to start a chat</h3>
-                </div>
+              <div className="w-full h-full flex-1 grid place-content-center p-3">
+                <h3 className="font-medium text-3xl text-gray-200">
+                  Open a conversation to start a chat
+                </h3>
+              </div>
             )}
           </section>
         </main>

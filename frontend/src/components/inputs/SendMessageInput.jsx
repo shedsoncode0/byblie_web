@@ -1,6 +1,6 @@
 import React from "react";
 
-const SendMessageInput = () => {
+const SendMessageInput = ({ onChange, value, handleSubmit }) => {
   return (
     <div className="flex items-center px-3 py-2 rounded-lg">
       <button
@@ -44,11 +44,14 @@ const SendMessageInput = () => {
       <textarea
         id="chat"
         rows="1"
+        value={value}
+        onChange={(e) => onChange(e)}
         className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Your message..."
       ></textarea>
       <button
         type="submit"
+        onClick={(e) => handleSubmit(e)}
         className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
       >
         <svg
