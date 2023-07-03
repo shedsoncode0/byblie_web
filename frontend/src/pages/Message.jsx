@@ -6,14 +6,20 @@ import ConversationCard from "../components/cards/ConversationCard";
 import SendMessageInput from "../components/inputs/SendMessageInput";
 import SendMessageHeader from "../components/SendMessageHeader";
 import MessageCard from "../components/cards/MessageBox";
+import { io } from "socket.io-client";
 
 const Message = () => {
   const { user, port } = useContext(AppContext);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState(null);
+  const [socket, setSocket] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
+
+  useEffect(() => {
+    setSocket(io("https://byblie.onrender.com:443"));
+  }, []);
 
   useEffect(() => {
     const apiEndPoint = `${port}/api/v1/conversation/${user.userId}`;
@@ -68,8 +74,8 @@ const Message = () => {
   };
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({behavior: "smooth"})
-  }, [messages])
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="h-screen w-full flex antialiased text-gray-800 bg-white overflow-hidden">
