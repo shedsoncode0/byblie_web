@@ -1,11 +1,14 @@
 import React from "react";
+import { format } from "timeago.js";
 
-const messageCard = ({conversation}) => {
+const MessageCard = ({ message, own }) => {
   return (
     <div className="flex items-center group">
       <p className="px-6 py-3 rounded-t-full rounded-r-full bg-gray-100 max-w-xs lg:max-w-md">
-        Hey! How are you?
+        {message.text}
+        <div>{format(message.createdAt)}</div>
       </p>
+      <p class="p-4 text-center text-sm text-gray-500">FRI 3:04 PM</p>
       <button
         type="button"
         className="hidden group-hover:block flex flex-shrink-0 focus:outline-none mx-2 block rounded-full text-gray-500 hover:text-gray-800 hover:bg-gray-200 bg-gray-100 w-8 h-8 p-2"
@@ -38,4 +41,4 @@ C15.786,7.8,14.8,8.785,14.8,10s0.986,2.2,2.201,2.2S19.2,11.215,19.2,10S18.216,7.
   );
 };
 
-export default messageCard;
+export default MessageCard;

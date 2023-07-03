@@ -16,3 +16,13 @@
 .search-bar:focus + .fa-search {
   display: none;
 }
+
+
+.app_layout::-webkit-scrollbar {
+  width: 5px;
+  background-color: blueviolet;
+}
+.app_layout::-webkit-scrollbar-track {
+  width: 2px;
+  background-color: blueviolet;
+}
