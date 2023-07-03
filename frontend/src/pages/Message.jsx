@@ -32,7 +32,7 @@ const Message = () => {
 
   // Create a socket reference for real-time communication
   useEffect(() => {
-    socket.current = io('//https://byblie.onrender.com:9800');
+    socket.current = io('https://byblie.vercel.app');
     socket.current.on('getMessage', (data) => {
       setArrivalMessage({
         sender: data.senderId,
