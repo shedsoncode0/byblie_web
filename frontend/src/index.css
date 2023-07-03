@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: 'DM Sans', sans-serif;
+}
+
 @media screen and (min-width: 768px) {
   .post:hover .overlay {
     display: block;

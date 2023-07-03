@@ -9,12 +9,15 @@ import Spinner from '../components/Spinner';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { port, setSignedIn, setShowToast, setToast } = useContext(AppContext);
+  const { port, setSignedIn, setShowToast, setToast, userAvatar } =
+    useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
   const [userDetails, setUserDetails] = useState({
     email: '',
     password: '',
     fullname: '',
+    profileImage: userAvatar,
+    username: '',
   });
 
   const handleChange = (e) => {
@@ -27,8 +30,10 @@ const SignUp = () => {
     const apiEndPoint = `${port}/api/v1/auth/register`;
     const userInformation = {
       email: userDetails.email,
+      username: userDetails.username,
       password: userDetails.password,
       fullname: userDetails.fullname,
+      profileImage: userDetails.profileImage,
     };
 
     axios
@@ -41,7 +46,7 @@ const SignUp = () => {
         setShowToast(true);
         setIsLoading(false);
         setToast({
-          text: 'signed in successfull',
+          text: 'signup in successfull',
           icon: <FaCheck />,
           status: 'success',
         });
@@ -145,6 +150,27 @@ const SignUp = () => {
                     htmlFor='email'
                     className='block text-sm mb-2 dark:text-white'
                   >
+                    Username
+                  </label>
+                  <div className='relative'>
+                    <Input
+                      onChange={handleChange}
+                      type='text'
+                      id='username'
+                      name='username'
+                      value={userDetails.username}
+                      placeholder='username'
+                    />
+                  </div>
+                </div>
+                {/* <!-- End htmlForm Group --> */}
+
+                {/* <!-- Form Group --> */}
+                <div>
+                  <label
+                    htmlFor='email'
+                    className='block text-sm mb-2 dark:text-white'
+                  >
                     Email address
                   </label>
                   <div className='relative'>
@@ -225,7 +251,7 @@ const SignUp = () => {
                 {/* <!-- Checkbox --> */}
                 <div className='flex items-center'>
                   <div className='flex'>
-                    <nput
+                    <input
                       id='remember-me'
                       name='remember-me'
                       type='checkbox'
