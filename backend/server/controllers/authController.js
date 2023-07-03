@@ -14,7 +14,7 @@ const {
  */
 const register = async (req, res) => {
   // Get all the user details from the request Body
-  const { fullname, email, password } = req.body;
+  const { fullname, email, password, profileImage, username } = req.body;
 
   if (!fullname || !email || !password) {
     res.status(400).json('Please add all fields');
@@ -37,6 +37,8 @@ const register = async (req, res) => {
     email,
     fullname,
     password: hashedPassword,
+    profileImage,
+    username,
   });
 
   // Save the user to the database and check for any error

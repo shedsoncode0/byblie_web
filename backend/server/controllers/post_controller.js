@@ -41,7 +41,8 @@ const getAllPost = async (req, res) => {
  */
 const createPost = async (req, res) => {
   // Geting input from the request body
-  const { description, bgColor, bgImage, text, username, name, profileImage } = req.body;
+  const { description, bgColor, bgImage, text, username, name, profileImage } =
+    req.body;
 
   if (!text || !username || !name || !profileImage) {
     res.status(401).json({
@@ -60,7 +61,7 @@ const createPost = async (req, res) => {
       profileImage,
       username,
       name,
-      bgImage
+      bgImage,
     });
 
     res.status(201).json({ createdPost });
@@ -212,10 +213,11 @@ const likePost = async (req, res) => {
  */
 const unlikePost = async (req, res) => {
   // Getting all the user details from the req body
-  const { userId, postId } = req.body;
+  const { postId } = req.body;
+  const userId = req.user.id;
 
   // Checking for all the details
-  if (!userId || !postId) {
+  if (!postId) {
     res.status(500).json({
       status: false,
       error: 'Please pass all requied details',
@@ -256,16 +258,22 @@ const unlikePost = async (req, res) => {
  */
 const commentPost = async (req, res) => {
   // Getting all the user details from the req body
-  const { userId, userPicture, userName, userUsername, postId, comment } =
-    req.body;
+  const {
+    commenterId,
+    commenterProfileImage,
+    commenterName,
+    commenterUsername,
+    postId,
+    comment,
+  } = req.body;
 
   // Checking for all the details
   if (
-    !userId ||
+    !commenterId ||
     !postId ||
-    !userPicture ||
-    !userName ||
-    !userUsername ||
+    !commenterProfileImage ||
+    !commenterName ||
+    !commenterUsername ||
     !comment
   ) {
     res.status(500).json({
@@ -288,7 +296,7 @@ const commentPost = async (req, res) => {
   try {
     await post.updateOne({
       $push: {
-        comments: { userId, userName, userPicture, userUsername, comment },
+        comments: { commenterId, commenterName, commenterProfileImage, commenterUsername, comment },
       },
     });
     res

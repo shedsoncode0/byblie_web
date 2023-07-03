@@ -5,9 +5,11 @@ import Spinner from '../components/Spinner';
 import { AppContext } from '../contexts/AppContext';
 import axios from 'axios';
 import Panel from '../components/Panel';
+import CommentPopup from '../components/popups/CommentPopup';
 
 const Feed = () => {
-  const { port, user, posts, setPosts, userDetails, setUserDetails } = useContext(AppContext);
+  const { port, user, posts, setPosts, userDetails, setUserDetails } =
+    useContext(AppContext);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -45,6 +47,7 @@ const Feed = () => {
               posts.map((post, index) => {
                 return (
                   <PostCard
+                    commentArray={post}
                     key={index}
                     bgColor={post.bgColor}
                     bgImage={post.bgImage}

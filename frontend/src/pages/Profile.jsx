@@ -30,6 +30,7 @@ const Profile = () => {
         });
     };
     getUserPosts();
+    console.log(userAvatar)
   }, []);
 
   return (
@@ -42,7 +43,7 @@ const Profile = () => {
               <img
                 className='w-20 h-20 md:w-40 md:h-40 object-cover rounded-full
                    border-2 border-blue-600 p-1'
-                src={`${userAvatar}`}
+                src={user.userDetails.profileImage}
                 alt='profile'
               />
             </div>
@@ -50,7 +51,7 @@ const Profile = () => {
             <div className='w-8/12 md:w-7/12 ml-4'>
               <div className='md:flex md:flex-wrap md:items-center mb-4'>
                 <h2 className='text-3xl inline-block font-light md:mr-2 mb-2 sm:mb-0'>
-                  {user.userDetails.fullname}
+                  {user.userDetails.username}
                 </h2>
 
                 {/* <!-- badge --> */}
@@ -99,7 +100,7 @@ const Profile = () => {
 
               {/* <!-- user meta form medium screens --> */}
               <div className='hidden md:block'>
-                <h1 className='font-semibold'>Mr Travlerrr...</h1>
+                <h1 className='font-semibold'>{user.userDetails.fullname}</h1>
                 <span>Travel, Nature and Music</span>
                 <p>Lorem ipsum dolor sit amet consectetur</p>
               </div>
@@ -150,7 +151,7 @@ const Profile = () => {
               </li>
             </ul>
             {/* <!-- flexbox grid --> */}
-            <UserPost userPosts={userPosts}/>
+            <UserPost userPosts={userPosts} />
           </div>
         </div>
       </main>

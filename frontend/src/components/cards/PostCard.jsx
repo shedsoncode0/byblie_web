@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { BsEye } from "react-icons/bs";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import Image4 from "../../assets/images/image4.jpeg";
+import CommentPopup from "../popups/CommentPopup";
 
 const PostCard = ({
+  commentArray,
   userImage,
   username,
   name,
@@ -22,22 +23,28 @@ const PostCard = ({
 }) => {
   const [likes, setLikes] = useState(likesObject);
   const [likePost, setLikePost] = useState(false);
+  const [userAlreadyLikePost, setUserAlreadyLikePost] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const { port, user, userAvatar } = useContext(AppContext);
 
   useEffect(() => {
     likes.forEach((like) => {
       if (like.userId === user.userId) {
         setLikePost(true);
+        setUserAlreadyLikePost(true);
+      } else {
+        setUserAlreadyLikePost(false);
       }
     });
   }, []);
 
   // Send a request to like post or unlike post
-  useEffect(() => {
+  const handleLike = () => {
+    setLikePost(!likePost);
     const apiEndPointLikePost = `${port}/api/v1/post/like`;
     const apiEndPointUnLikePost = `${port}/api/v1/post/unlike`;
 
-    const detailsToLikePost = {
+    const details = {
       postId,
       username,
       name,
@@ -46,9 +53,26 @@ const PostCard = ({
 
     if (likePost) {
       axios
-        .post(apiEndPointLikePost, detailsToLikePost, {
+        .post(
+          apiEndPointUnLikePost,
+          { postId },
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post(apiEndPointLikePost, details, {
           headers: {
-            Authorization: `Bearer ${user.userAccessToken}`,
+            Authorization: `Bearer ${user.accessToken}`,
           },
         })
         .then((response) => {
@@ -58,10 +82,6 @@ const PostCard = ({
           console.log(error);
         });
     }
-  }, []);
-
-  const handleLike = () => {
-    setLikePost(!likePost);
   };
 
   const handleComment = () => {
@@ -71,14 +91,15 @@ const PostCard = ({
       postId: postId,
       comment: "comment",
       commenterId: user.userId,
-      commenterName: user.userDetails.Name,
+      commenterName: user.userDetails.fullname,
       commenterUsername: user.userDetails.username,
       commenterProfileImage: user.userDetails.profileImage,
     };
+    console.log(commentDetails);
     axios
       .post(apiEndPoint, commentDetails, {
         headers: {
-          Authorization: `Bearer ${user.userAccessToken}`,
+          Authorization: `Bearer ${user.accessToken}`,
         },
       })
       .then((response) => {
@@ -100,21 +121,20 @@ const PostCard = ({
                   <img
                     className="w-12 h-12 object-cover rounded-full shadow cursor-pointer"
                     alt="User avatar"
-                    src={userAvatar}
+                    src={userImage}
                   />
                 </div>
-                <div className="flex items-center ml-4 flex-1">
-                  <div className="text-sm font-semibold">
+                <div className="flex flex-col justify-center ml-4 ">
+                  <div className="text-gray-600 text-sm font-semibold">
                     {name}
                   </div>
-                </div>
-                <div className="flex items-center ml-4 flex-2">
-                  <BiDotsVerticalRounded size={21} />
+                  <div className="text-gray-400 text-xs font-normal">
+                    @{username}
+                  </div>
                 </div>
               </div>
-
               <div
-                onDoubleClick={() => setLikePost(!likePost)}
+                onDoubleClick={() => handleLike()}
                 style={{
                   backgroundColor: bgColor,
                   color: textColor ? textColor : "white",
@@ -137,7 +157,10 @@ const PostCard = ({
 
               <div className="flex w-full border-t border-gray-100">
                 <div className="mt-3 mx-5 flex flex-row">
-                  <div className="flex text-gray-700 font-normal text-sm rounded-md mb-2 mr-4 items-center">
+                  <div
+                    onClick={() => setShowPopup(!showPopup)}
+                    className="flex text-gray-700 font-normal text-sm rounded-md mb-2 mr-4 items-center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -188,7 +211,13 @@ const PostCard = ({
                     </svg>
                     <div className="ml-1 text-gray-400 font-thin text-ms">
                       {" "}
-                      {likesCount}
+                      {likePost
+                        ? userAlreadyLikePost
+                          ? likesCount
+                          : likesCount + 1
+                        : userAlreadyLikePost
+                        ? likesCount - 1
+                        : likesCount}
                     </div>
                   </div>
                 </div>
@@ -201,6 +230,7 @@ const PostCard = ({
                 />
                 <span className="absolute inset-y-0 right-0 flex items-center pr-6">
                   <button
+                    onClick={() => handleComment()}
                     type="submit"
                     className="p-1 focus:outline-none focus:shadow-none hover:text-blue-500"
                   >
@@ -226,6 +256,11 @@ const PostCard = ({
           </div>
         </div>
       </div>
+      <CommentPopup
+        comments={commentArray}
+        setShowPopup={setShowPopup}
+        showPopup={showPopup}
+      />
     </div>
   );
 };

@@ -32,9 +32,9 @@ const CreateTab = () => {
       description: post.description,
       text: post.text,
       bgColor: post.bgColor,
-      username: 'abby', //userDetails.username
+      username: user.userDetails.username,
       name: user.userDetails.fullname,
-      profileImage: 'userDetails.profileImage',
+      profileImage: user.userDetails.profileImage,
       bgImage: post.bgImage,
     };
     console.log(postDetails);
@@ -136,9 +136,16 @@ const CreateTab = () => {
                     setPost((prev) => ({ ...prev, text: e.target.value }))
                   }
                 />
-                <Input placeholder='Write more...' value={post.description} onChange={(e) =>
-                    setPost((prev) => ({ ...prev, description: e.target.value }))
-                  } />
+                <Input
+                  placeholder='Write more...'
+                  value={post.description}
+                  onChange={(e) =>
+                    setPost((prev) => ({
+                      ...prev,
+                      description: e.target.value,
+                    }))
+                  }
+                />
               </div>
               {/* end */}
               <div className='w-full flex gap-2 py-3 rounded-lg overflow-hidden'>
