@@ -4,6 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const color = require("colors");
 const morgan = require("morgan");
+const http = require("http");
+
 require("dotenv").config();
 
 const connectDB = require("./server/database/connection");
@@ -17,6 +19,48 @@ connectDB();
 
 // The main Server
 const app = express();
+const io = require("socket.io")(2020, { cors: { origin: "*" } });
+
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+  // send a message to the client
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    io.emit("getUsers", users);
+  });
+
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    io.to(user.socketId).emit("getMessage", {
+      senderId,
+      text,
+    });
+  });
+  socket.on("disconnect", () => {
+    console.log("a user has disconnect");
+    removeUser(socket.id);
+    io.emit("getUsers", users);
+  });
+
+  socket.on("connect_error", (err) => {
+    console.log(`connect_error due to ${err.message}`);
+  });
+});
 
 // Server Middlewares
 app.use(express.json());
