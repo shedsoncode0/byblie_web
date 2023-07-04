@@ -24,7 +24,7 @@ const Message = () => {
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [newMessage, setNewMessage] = useState("");
-  const ENDPOINET = `https://byblie.onrender.com/`;
+  const ENDPOINET = `https://byblie.onrender.com`;
 
   const socket = useRef();
 
