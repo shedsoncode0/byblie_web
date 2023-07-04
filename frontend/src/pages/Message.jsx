@@ -134,7 +134,7 @@ const Message = () => {
     <div className="h-screen w-full flex antialiased text-gray-800 bg-white overflow-hidden">
       <div className="flex-1 flex flex-col">
         <main className="flex-grow flex flex-row min-h-0">
-          <section className="flex flex-col flex-none overflow-auto w-24 lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
+          <section className="flex flex-col flex-none overflow-auto w-[60px] lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
             {/* Left sidebar */}
             <div className="header p-4 flex flex-row justify-between items-center flex-none">
               {/* Header content */}
@@ -178,7 +178,7 @@ const Message = () => {
             {/* List of conversations */}
             <div className="contacts p-2 flex-1 overflow-y-scroll">
               {conversations.map((conversation, index) => (
-                <div key={index} onClick={() => setCurrentChat(conversation)}>
+                <div  key={index} onClick={() => setCurrentChat(conversation)}>
                   <ConversationCard
                     conversation={conversation}
                     currentUser={user}
@@ -216,7 +216,7 @@ const Message = () => {
             ) : (
               <div className="w-full h-full flex-1 grid place-content-center p-3">
                 {/* Placeholder message when no conversation is selected */}
-                <h3 className="font-medium text-3xl text-gray-200">
+                <h3 className="font-medium text-lg text-gray-200 text-center md:text-2xl">
                   Open a conversation to start a chat
                 </h3>
               </div>
