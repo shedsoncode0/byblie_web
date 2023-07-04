@@ -24,7 +24,7 @@ const Message = () => {
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [newMessage, setNewMessage] = useState("");
-  const ENDPOINET = `https://api.byblie.onrender.com`;
+  const ENDPOINET = `https://byblie.onrender.com/`;
 
   const socket = useRef();
 
@@ -178,7 +178,7 @@ const Message = () => {
             {/* List of conversations */}
             <div className="contacts p-2 flex-1 overflow-y-scroll">
               {conversations.map((conversation, index) => (
-                <div  key={index} onClick={() => setCurrentChat(conversation)}>
+                <div key={index} onClick={() => setCurrentChat(conversation)}>
                   <ConversationCard
                     conversation={conversation}
                     currentUser={user}
