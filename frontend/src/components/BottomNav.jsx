@@ -9,19 +9,19 @@ import {
 import { RiNotificationLine } from 'react-icons/ri';
 
 const links = [
-  { name: "Home", to: "feed", icon: <BiHomeAlt2 size={27} /> },
-  { name: "Search", to: "search", icon: <FiSearch size={27} /> },
+  { name: "Home", to: "/feed", icon: <BiHomeAlt2 size={27} /> },
+  { name: "Search", to: "/search", icon: <FiSearch size={27} /> },
   {
     name: "Messages",
-    to: "message",
+    to: "/message",
     icon: <BsPencilSquare size={27} />,
   },
   {
     name: "Notifications",
-    to: "notifications",
+    to: "/notifications",
     icon: <RiNotificationLine size={27} />,
   },
-  { name: "Profile", to: "profile", icon: <BiUserCircle size={27} /> },
+  { name: "Profile", to: "/profile", icon: <BiUserCircle size={27} /> },
 ];
 
 const BottomNav = () => {
