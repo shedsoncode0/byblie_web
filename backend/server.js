@@ -19,7 +19,13 @@ connectDB();
 
 // The main Server
 const app = express();
-const io = require("socket.io")(2020, { cors: { origin: "*" } });
+const server = http.createServer(app);
+
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 let users = [];
 
@@ -56,10 +62,6 @@ io.on("connection", (socket) => {
     removeUser(socket.id);
     io.emit("getUsers", users);
   });
-
-  socket.on("connect_error", (err) => {
-    console.log(`connect_error due to ${err.message}`);
-  });
 });
 
 // Server Middlewares
@@ -84,6 +86,6 @@ app.use("/api/v1/conversation", require("./server/routes/conversation_route"));
 app.use("/api/v1/messages", require("./server/routes/messages_route"));
 
 // Start the server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("Server is up an Running on POST " + PORT.rainbow.underline);
 });

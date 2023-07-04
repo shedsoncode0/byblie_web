@@ -24,6 +24,7 @@ const Message = () => {
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [newMessage, setNewMessage] = useState("");
+  const ENDPOINET = `http://localhost:5000`;
 
   const socket = useRef();
 
@@ -32,7 +33,7 @@ const Message = () => {
 
   // Create a socket reference for real-time communication
   useEffect(() => {
-    socket.current = io("wss://byblie.vercel.app:2020");
+    socket.current = io(ENDPOINET);
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -40,7 +41,7 @@ const Message = () => {
         createdAt: Date.now(),
       });
     });
-  }, []);
+  }, [ENDPOINET]);
 
   useEffect(() => {
     arrivalMessage &&
