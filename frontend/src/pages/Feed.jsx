@@ -62,6 +62,7 @@ const Feed = () => {
                     name={post.name}
                     postId={post._id}
                     userImage={post.profileImage}
+                    userId={post.user}
                   />
                 );
               })

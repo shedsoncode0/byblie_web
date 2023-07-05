@@ -4,6 +4,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { BsEye } from "react-icons/bs";
 import Image4 from "../../assets/images/image4.jpeg";
 import CommentPopup from "../popups/CommentPopup";
+import { Link } from "react-router-dom";
 
 const PostCard = ({
   commentArray,
@@ -20,6 +21,7 @@ const PostCard = ({
   likesObject,
   postId,
   bgImage,
+  userId,
 }) => {
   const [likes, setLikes] = useState(likesObject);
   const [likePost, setLikePost] = useState(false);
@@ -130,12 +132,18 @@ const PostCard = ({
                   />
                 </div>
                 <div className="flex flex-col justify-center ml-4 ">
-                  <div className="text-gray-600 text-sm font-semibold">
+                  <Link
+                    to={`/person/${userId}`}
+                    className="text-gray-600 text-sm font-semibold"
+                  >
                     {name}
-                  </div>
-                  <div className="text-gray-400 text-xs font-normal">
+                  </Link>
+                  <Link
+                    to={`/person/${userId}`}
+                    className="text-gray-400 text-xs font-normal"
+                  >
                     @{username}
-                  </div>
+                  </Link>
                 </div>
               </div>
               <div
