@@ -6,10 +6,10 @@ const CreatePopup = ({ showPopup, setShowPopup }) => {
     <div>
       {showPopup && (
         <div
-          className='fixed z-[900000000] top-0 right-0 bottom-0 left-0 flex px-5 justify-center items-center transition-all bg-gray-900/80 backdrop-blur-md overflow-scroll'
+          className='scrollbar fixed z-[900000000] top-0 right-0 bottom-0 left-0 px-5 flex justify-center transition-all bg-gray-900/80 backdrop-blur-md overflow-y-scroll'
           onClick={() => setShowPopup(false)}
         >
-          <div className='items-center' onClick={(e) => e.stopPropagation()}>
+          <div className='relative' onClick={(e) => e.stopPropagation()}>
             <CreateTab />
           </div>
         </div>

@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import BibleStorysScroll from '../components/BibleStorysScroll';
-import PostCard from '../components/cards/PostCard';
-import Spinner from '../components/Spinner';
-import { AppContext } from '../contexts/AppContext';
-import axios from 'axios';
-import Panel from '../components/Panel';
-import CommentPopup from '../components/popups/CommentPopup';
+import { useContext, useEffect, useState } from "react";
+import BibleStorysScroll from "../components/BibleStorysScroll";
+import PostCard from "../components/cards/PostCard";
+import Spinner from "../components/Spinner";
+import { AppContext } from "../contexts/AppContext";
+import axios from "axios";
+import Panel from "../components/Panel";
+import CommentPopup from "../components/popups/CommentPopup";
 
 const Feed = () => {
   const { port, user, posts, setPosts, userDetails, setUserDetails } =
@@ -33,16 +33,16 @@ const Feed = () => {
   }, []);
 
   return (
-    <main className='w-full relative h-full flex overflow-hidden justify-around'>
+    <main className="scrollbar w-full relative h-full flex overflow-hidden justify-around">
       {loading ? (
-        <div className='w-full h-full grid place-content-center'>
+        <div className="w-full h-full grid place-content-center">
           <Spinner />
         </div>
       ) : (
-        <section className=' w-full overflow-scroll overflow-x-hidden pt-[70px]  lg:pt-10 pb-20'>
+        <section className=" w-full overflow-scroll overflow-x-hidden pt-[70px]  lg:pt-10 pb-20">
           {/* <div className='flex justify-evenly fle'> */}
           <BibleStorysScroll />
-          <section className='w-full flex flex-col items-center'>
+          <section className="w-full flex flex-col items-center">
             {posts.length >= 1 ? (
               posts.map((post, index) => {
                 return (
@@ -66,7 +66,7 @@ const Feed = () => {
                 );
               })
             ) : (
-              <div className='w-full h-full py-20 text-center text-2xl text-gray-300'>
+              <div className="w-full h-full py-20 text-center text-2xl text-gray-300">
                 No posts
               </div>
             )}
