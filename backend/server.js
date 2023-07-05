@@ -50,9 +50,6 @@ io.on("connection", (socket) => {
     io.emit("getUsers", users);
   });
 
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
-  socket.on("stopTyping", (room) => socket.in(room).emit("stopTyping"));
-
   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
     const user = getUser(receiverId);
     io.to(user.socketId).emit("getMessage", {
@@ -60,6 +57,15 @@ io.on("connection", (socket) => {
       text,
     });
   });
+
+  socket.on("isTyping", ({ receiverId, typing }) => {
+    console.log("Typing...")
+    const user = getUser(receiverId);
+    io.to(user.socketId).emit("typing", {
+      typing,
+    });
+  });
+
   socket.on("disconnect", () => {
     console.log("a user has disconnect");
     removeUser(socket.id);

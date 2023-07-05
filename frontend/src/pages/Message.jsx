@@ -12,7 +12,19 @@ import ConversationCard from "../components/cards/ConversationCard";
 import SendMessageInput from "../components/inputs/SendMessageInput";
 import SendMessageHeader from "../components/SendMessageHeader";
 import MessageCard from "../components/cards/MessageBox";
+import Lottie from "react-lottie";
+import typingAnimation from "../assets/Typing_Guy.json";
+
 import { io } from "socket.io-client";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: typingAnimation,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 const Message = () => {
   // Use the AppContext to access user and port information
@@ -26,8 +38,8 @@ const Message = () => {
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [newMessage, setNewMessage] = useState("");
+  const [receiverId, setReceiverId] = useState();
   const ENDPOINET = port;
-  const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
   const socket = useRef();
@@ -38,8 +50,6 @@ const Message = () => {
   // Create a socket reference for real-time communication
   useEffect(() => {
     socket.current = io(ENDPOINET);
-    socket.current.on("typing", () => setIsTyping(true));
-    socket.current.on("stopTyping", () => setIsTyping(false));
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -47,7 +57,26 @@ const Message = () => {
         createdAt: Date.now(),
       });
     });
+
+    socket.current.on("typing", (data) => {
+      setIsTyping(data.typing);
+    });
   }, [ENDPOINET]);
+
+  useEffect(() => {
+    const typingTimer = setTimeout(() => {
+      if (receiverId) {
+        socket.current.emit("isTyping", {
+          receiverId,
+          typing: false,
+        });
+
+        console.log("User has stopped typing");
+      }
+    }, 1000); // Adjust the timeout value as needed
+
+    return () => clearTimeout(typingTimer);
+  }, [newMessage]);
 
   useEffect(() => {
     arrivalMessage &&
@@ -95,26 +124,11 @@ const Message = () => {
   const handleChange = (e) => {
     const value = e.target.value;
     setNewMessage(value);
-    const receiverId = currentChat.members.find(
-      (member) => member !== user.userId
-    );
 
-    // Typing Indicator Logic
-    if (!typing) {
-      setTyping(true);
-      socket.current.emit("typing", receiverId);
-    }
-    let lastTypingTime = new Date().getTime();
-    let timerLength = 3000;
-    setTimeout(() => {
-      var timeNow = new Date().getTime();
-      let timeDiff = timeNow - lastTypingTime;
-
-      if (timeDiff >= timerLength && typing) {
-        socket.current.emit("stopTyping", receiverId);
-        setTyping(false  );
-      }
-    }, timerLength);
+    socket.current.emit("isTyping", {
+      receiverId,
+      typing: true,
+    });
   };
 
   // Handle form submission for sending a new message
@@ -210,6 +224,7 @@ const Message = () => {
                     const friendId = conversation.members.find(
                       (m) => m !== user.userId
                     );
+                    setReceiverId(friendId);
                     setCurrentChat(conversation);
                     setCurrentConversationsFriendId(friendId);
                   }}
@@ -239,6 +254,11 @@ const Message = () => {
                       <MessageCard message={m} own={m.sender === user.userId} />
                     </div>
                   ))}
+                  {isTyping && (
+                    <div className="w-[50px]">
+                      <Lottie options={defaultOptions} height={50} width={50} />
+                    </div>
+                  )}
                 </div>
 
                 {/* Input form for sending messages */}
