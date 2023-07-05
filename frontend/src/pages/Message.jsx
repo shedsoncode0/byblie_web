@@ -20,11 +20,15 @@ const Message = () => {
 
   // Define state variables
   const [conversations, setConversations] = useState([]);
+  const [currentConversationFriendId, setCurrentConversationsFriendId] =
+    useState("");
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [newMessage, setNewMessage] = useState("");
-  const ENDPOINET = `https://byblie.onrender.com`;
+  const ENDPOINET = port;
+  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const socket = useRef();
 
@@ -34,6 +38,8 @@ const Message = () => {
   // Create a socket reference for real-time communication
   useEffect(() => {
     socket.current = io(ENDPOINET);
+    socket.current.on("typing", () => setIsTyping(true));
+    socket.current.on("stopTyping", () => setIsTyping(false));
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -89,6 +95,26 @@ const Message = () => {
   const handleChange = (e) => {
     const value = e.target.value;
     setNewMessage(value);
+    const receiverId = currentChat.members.find(
+      (member) => member !== user.userId
+    );
+
+    // Typing Indicator Logic
+    if (!typing) {
+      setTyping(true);
+      socket.current.emit("typing", receiverId);
+    }
+    let lastTypingTime = new Date().getTime();
+    let timerLength = 3000;
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+      let timeDiff = timeNow - lastTypingTime;
+
+      if (timeDiff >= timerLength && typing) {
+        socket.current.emit("stopTyping", receiverId);
+        setTyping(false  );
+      }
+    }, timerLength);
   };
 
   // Handle form submission for sending a new message
@@ -178,7 +204,16 @@ const Message = () => {
             {/* List of conversations */}
             <div className="contacts p-2 flex-1 overflow-y-scroll">
               {conversations.map((conversation, index) => (
-                <div key={index} onClick={() => setCurrentChat(conversation)}>
+                <div
+                  key={index}
+                  onClick={() => {
+                    const friendId = conversation.members.find(
+                      (m) => m !== user.userId
+                    );
+                    setCurrentChat(conversation);
+                    setCurrentConversationsFriendId(friendId);
+                  }}
+                >
                   <ConversationCard
                     conversation={conversation}
                     currentUser={user}
@@ -193,7 +228,9 @@ const Message = () => {
             {currentChat ? (
               <>
                 {/* Header for the current chat */}
-                <SendMessageHeader />
+                <SendMessageHeader
+                  currentUserId={currentConversationFriendId}
+                />
 
                 {/* Messages */}
                 <div className="w-full flex-1 overflow-y-scroll overflow-x-hidden h-full p-3">
@@ -205,7 +242,7 @@ const Message = () => {
                 </div>
 
                 {/* Input form for sending messages */}
-                <form className="mb-16 lg:mb-0">
+                <form className="">
                   <SendMessageInput
                     handleSubmit={handleSubmit}
                     value={newMessage}

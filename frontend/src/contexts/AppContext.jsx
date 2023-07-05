@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
   const [showToast, setShowToast] = useState(false);
   const [posts, setPosts] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
+  const [notification, setNotification] = useState([]);
   const port = "https://byblie.onrender.com"; //https://byblie.onrender.com
   let user;
 
@@ -150,6 +151,8 @@ export const AppProvider = ({ children }) => {
         toast,
         setToast,
         imageLinks,
+        notification,
+        setNotification,
       }}
     >
       {children}
