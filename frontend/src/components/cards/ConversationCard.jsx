@@ -47,9 +47,9 @@ const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
           }
           alt="image"
         />
-        <span
+        <div
           class={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-green-400`}
-        ></span>
+        ></div>
       </div>
       <div className="ml-3 hidden md:flex flex-1 items-start justify-center flex-col">
         <h1>{user.fullname}</h1>
