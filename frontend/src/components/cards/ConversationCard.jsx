@@ -36,7 +36,7 @@ const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
   }, [connectedUsers, id]);
 
   return (
-    <div className="w-full relative md:hover:bg-slate-100 md:p-3 p-1 rounded-lg flex">
+    <div className="w-full md:hover:bg-slate-100 md:p-3 p-1 rounded-lg flex">
       <div className="max-w-[60px] relative w-full">
         <img
           className="rounded-full w-full h-full object-cover"
@@ -47,16 +47,15 @@ const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
           }
           alt="image"
         />
-        <div
-          class={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-green-400`}
-        ></div>
+        <span
+          class={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white ${
+            isOnline ? "bg-green-400" : "bg-red-400"
+          }`}
+        ></span>
       </div>
-      <div
-          class={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-green-400`}
-        ></div>
       <div className="ml-3 hidden md:flex flex-1 items-start justify-center flex-col">
         <h1>{user.fullname}</h1>
-        <p className="text-gray-400">hello mansss</p>
+        <p className="text-gray-400">hello man</p>
       </div>
       <div className=" hidden md:flex items-center">
         <h1 className="text-sm">10:10pm</h1>
