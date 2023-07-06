@@ -26,11 +26,11 @@ const SendMessageHeader = ({ currentUserId }) => {
   }, [currentUserId]);
 
   return (
-    <div className="chat-header px-6 py-4 flex flex-row flex-none justify-between items-center shadow">
+    <div className="chat-header px-3 py-3 flex flex-row flex-none justify-between items-center shadow">
       <div className="flex">
         <div className="w-12 h-12 mr-4 relative flex flex-shrink-0">
           <img
-            className="shadow-md rounded-full w-full h-full object-cover"
+            className="rounded-full w-full h-full object-cover"
             src={user.profileImage}
             alt=""
           />

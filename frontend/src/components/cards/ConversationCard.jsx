@@ -7,6 +7,7 @@ const ConversationCard = ({
   currentUser,
   connectedUsers,
   newMessage,
+  collaps
 }) => {
   const { port, socket, setIsTyping, isTyping } = useContext(AppContext);
   const [id, setId] = useState("");
@@ -73,11 +74,11 @@ const ConversationCard = ({
           }`}
         ></span>
       </div>
-      <div className="ml-3 hidden  sm:flex flex-1 items-start justify-center flex-col">
+      <div className={`ml-3 ${collaps ? "hidden" : "flex"} flex-1 items-start justify-center flex-col`}>
         <h1>{user.fullname}</h1>
         <p className="text-gray-400">hello man</p>
       </div>
-      <div className=" hidden md:flex items-center">
+      <div className={`${collaps ? "hidden" : "flex"} items-center`}>
         <h1 className="text-sm">10:10pm</h1>
       </div>
     </div>

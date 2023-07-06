@@ -15,7 +15,7 @@ export const AppProvider = ({ children }) => {
   const [isOnline, setIsOnline] = useState(false);
   const [notification, setNotification] = useState([]);
   const socket = useRef();
-  const port = "https://byblie.onrender.com"; //https://byblie.onrender.com
+  const port = "http://localhost:5000"; //https://byblie.onrender.com
   let user;
 
   const [toast, setToast] = useState({
