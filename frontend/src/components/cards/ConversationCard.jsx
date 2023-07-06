@@ -2,8 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import axios from "axios";
 
-const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
-  const { port } = useContext(AppContext);
+const ConversationCard = ({
+  conversation,
+  currentUser,
+  connectedUsers,
+  newMessage,
+}) => {
+  const { port, socket, setIsTyping, isTyping } = useContext(AppContext);
   const [id, setId] = useState("");
   const [user, setUser] = useState({});
   const [isOnline, setIsOnline] = useState(false);
@@ -30,10 +35,25 @@ const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
 
   useEffect(() => {
     connectedUsers.map((user) => {
-      console.log("users", user.userId);
       user.userId !== id ? setIsOnline(false) : setIsOnline(true);
     });
   }, [connectedUsers, id]);
+
+  useEffect(() => {
+    let typingTimer;
+    if (id) {
+      typingTimer = setTimeout(() => {
+        socket.current.emit("isTyping", {
+          receiverId: id,
+          typing: false,
+        });
+
+        console.log("User has stopped typing");
+      }, 1000);
+    }
+    // Adjust the timeout value as needed
+    return () => clearTimeout(typingTimer);
+  }, [newMessage]);
 
   return (
     <div className="w-full md:hover:bg-slate-100 md:p-3 p-1 rounded-lg flex">
@@ -48,7 +68,7 @@ const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
           alt="image"
         />
         <span
-          class={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white ${
+          class={`absolute md:bottom-1 bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white ${
             isOnline ? "bg-green-400" : "bg-red-400"
           }`}
         ></span>

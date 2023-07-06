@@ -26,7 +26,8 @@ const defaultOptions = {
 
 const Message = () => {
   // Use the AppContext to access user and port information
-  const { user, port, io, socket } = useContext(AppContext);
+  const { user, port, io, socket, isTyping, setIsTyping } =
+    useContext(AppContext);
 
   // Define state variables
   const [conversations, setConversations] = useState([]);
@@ -39,7 +40,6 @@ const Message = () => {
   const [newMessage, setNewMessage] = useState("");
   const [receiverId, setReceiverId] = useState();
   const ENDPOINET = port;
-  const [isTyping, setIsTyping] = useState(false);
 
   // Create a reference for scrolling to the latest message
   const scrollRef = useRef();
@@ -53,38 +53,7 @@ const Message = () => {
         createdAt: Date.now(),
       });
     });
-
-    // socket.current.on("typing", (data) => {
-    //   setIsTyping(data.typing);
-    // });
   }, [ENDPOINET]);
-
-  // useEffect(() => {
-  //   const typingTimer = setTimeout(() => {
-  //       socket.current.emit("isTyping", {
-  //         receiverId,
-  //         typing: false,
-  //       });
-
-  //       console.log("User has stopped typing");
-
-  //   }, 1000); // Adjust the timeout value as needed
-
-  //   return () => clearTimeout(typingTimer);
-  // }, [newMessage]);
-
-  function n() {
-    const typingTimer = setTimeout(() => {
-      socket.current.emit("isTyping", {
-        receiverId,
-        typing: false,
-      });
-
-      console.log("User has stopped typing");
-    }, 1000); // Adjust the timeout value as needed
-
-    return () => clearTimeout(typingTimer);
-  }
 
   useEffect(() => {
     arrivalMessage &&
@@ -114,6 +83,13 @@ const Message = () => {
       });
   }, [user.userId]);
 
+  // When User is typing
+  useEffect(() => {
+    socket.current.on("typing", (data) => {
+      setIsTyping(data.typing);
+    });
+  }, []);
+
   // useEffect hook to fetch messages when the current chat changes
   useEffect(() => {
     const apiEndPoint = `${port}/api/v1/messages/${currentChat?._id}`;
@@ -132,11 +108,12 @@ const Message = () => {
   const handleChange = (e) => {
     const value = e.target.value;
     setNewMessage(value);
-
-    socket.current.emit("isTyping", {
-      receiverId,
-      typing: true,
-    });
+    if (receiverId) {
+      socket.current.emit("isTyping", {
+        receiverId,
+        typing: true,
+      });
+    }
   };
 
   // Handle form submission for sending a new message
@@ -241,6 +218,7 @@ const Message = () => {
                     conversation={conversation}
                     currentUser={user}
                     connectedUsers={connectedUsers}
+                    newMessage={newMessage}
                   />
                 </div>
               ))}
@@ -265,8 +243,8 @@ const Message = () => {
                   ))}
                   {isTyping ? (
                     <div className="w-[50px] text-black">
-                      {/* <Lottie options={defaultOptions} height={50} width={50} /> */}
-                      loading...
+                      <Lottie options={defaultOptions} height={50} width={50} />
+                      typing...
                     </div>
                   ) : null}
                 </div>

@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
   const [notification, setNotification] = useState([]);
@@ -157,24 +158,25 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        darkMode,
-        setSignedIn,
-        signedIn,
-        port,
-        user,
-        posts,
-        setPosts,
+        notification,
+        imageLinks,
         userAvatar,
         showToast,
-        setShowToast,
-        toast,
-        setToast,
-        imageLinks,
-        notification,
-        setNotification,
+        signedIn,
         isOnline,
-        setIsOnline,
+        isTyping,
         socket,
+        toast,
+        posts,
+        port,
+        user,
+        setNotification,
+        setShowToast,
+        setIsTyping,
+        setSignedIn,
+        setIsOnline,
+        setToast,
+        setPosts,
         io,
       }}
     >
