@@ -39,7 +39,7 @@ const Feed = () => {
           <Spinner />
         </div>
       ) : (
-        <section className=" w-full overflow-scroll overflow-x-hidden pt-[70px]  lg:pt-10 pb-20">
+        <section className=" w-full scrollbar overflow-scroll overflow-x-hidden pt-[70px]  lg:pt-10 pb-20">
           {/* <div className='flex justify-evenly fle'> */}
           <BibleStorysScroll />
           <section className="w-full flex flex-col items-center">

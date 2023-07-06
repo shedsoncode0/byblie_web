@@ -14,6 +14,7 @@ import SendMessageHeader from "../components/SendMessageHeader";
 import MessageCard from "../components/cards/MessageBox";
 import Lottie from "react-lottie";
 import typingAnimation from "../assets/Typing_Guy.json";
+import SearchInput from "../components/inputs/SearchInput";
 
 const defaultOptions = {
   loop: true,
@@ -43,6 +44,7 @@ const Message = () => {
 
   // Create a reference for scrolling to the latest message
   const scrollRef = useRef();
+  const scrollRef2 = useRef();
 
   // Create a socket reference for real-time communication
   useEffect(() => {
@@ -152,56 +154,45 @@ const Message = () => {
   // useEffect hook to scroll to the latest message whenever the messages change
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    // scrollRef2.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, newMessage]);
 
   // Render the messaging interface
   return (
     <div className="h-screen w-full flex antialiased text-gray-800 bg-white overflow-hidden">
       <div className="flex-1 flex flex-col">
         <main className="flex-grow flex flex-row min-h-0">
-          <section className="flex flex-col flex-none overflow-auto w-[60px] lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
+          <section className="flex overflow-x-hidden relative flex-col flex-none overflow-auto  transition-all duration-300 ease-in-out">
             {/* Left sidebar */}
-            <div className="header p-4 flex flex-row justify-between items-center flex-none">
+            <div className=" p-4 flex flex-row justify-between items-center flex-none">
               {/* Header content */}
               <p className="text-md font-bold hidden md:block">Messenges</p>
-              <a
-                href="#"
-                className="block rounded-full hover:bg-gray-200 bg-gray-100 w-10 h-10 p-2"
-              >
-                {/* SVG icon */}
-                <svg viewBox="0 0 24 24" className="w-full h-full">
-                  <path d="M6.3 12.3l10-10a1 1 0 0 1 1.4 0l4 4a1 1 0 0 1 0 1.4l-10 10a1 1 0 0 1-.7.3H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 .3-.7zM8 16h2.59l9-9L17 4.41l-9 9V16zm10-2a1 1 0 0 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h6a1 1 0 0 1 0 2H4v14h14v-6z" />
+
+              <button className="absolute z-50 right-5   p-1 rounded-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+                  />
                 </svg>
-              </a>
+              </button>
             </div>
 
             {/* Search box */}
-            <div className="search-box p-4 flex-none">
-              <form onSubmit="">
-                <div className="relative">
-                  <label>
-                    <input
-                      className="rounded-full py-2 pr-6 pl-10 w-full border border-gray-200 bg-gray-200 focus:bg-white focus:outline-none text-gray-600 focus:shadow-md transition duration-300 ease-in"
-                      type="text"
-                      value=""
-                      placeholder="Search Messenger"
-                    />
-                    <span className="absolute top-0 left-0 mt-2 ml-3 inline-block">
-                      {/* Search icon */}
-                      <svg viewBox="0 0 24 24" className="w-6 h-6">
-                        <path
-                          fill="#bbb"
-                          d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
-                        />
-                      </svg>
-                    </span>
-                  </label>
-                </div>
-              </form>
+            <div className="p-3">
+              <SearchInput />
             </div>
 
             {/* List of conversations */}
-            <div className="contacts p-2 flex-1 overflow-y-scroll">
+            <div className="contacts scrollbar overflow-x-hidden p-2 flex-1 overflow-y-scroll">
               {conversations.map((conversation, index) => (
                 <div
                   key={index}
@@ -235,22 +226,26 @@ const Message = () => {
                 />
 
                 {/* Messages */}
-                <div className="w-full flex-1 overflow-y-scroll overflow-x-hidden h-full p-3">
+                <div className="w-full relative overflow-y-scroll overflow-x-hidden h-full p-3">
                   {messages.map((m, index) => (
-                    <div key={index} ref={scrollRef}>
+                    <div key={index}>
                       <MessageCard message={m} own={m.sender === user.userId} />
                     </div>
                   ))}
-                  {isTyping ? (
-                    <div className="w-[50px] text-black">
-                      <Lottie options={defaultOptions} height={50} width={50} />
-                      typing...
-                    </div>
-                  ) : null}
+
+                  <div
+                    ref={scrollRef}
+                    className={`w-[50px] ${
+                      isTyping ? "opacity-100" : "opacity-0"
+                    }  p-2  bottom-16 text-black`}
+                  >
+                    <Lottie options={defaultOptions} height={50} width={50} />
+                    typing...
+                  </div>
                 </div>
 
                 {/* Input form for sending messages */}
-                <form className="">
+                <form className="bg-transparent">
                   <SendMessageInput
                     handleSubmit={handleSubmit}
                     value={newMessage}
@@ -262,7 +257,7 @@ const Message = () => {
               <div className="w-full h-full flex-1 grid place-content-center p-3">
                 {/* Placeholder message when no conversation is selected */}
                 <h3 className="font-medium text-lg text-gray-200 text-center md:text-2xl">
-                  Open a conversation to start a chat
+                  Select a conversation
                 </h3>
               </div>
             )}

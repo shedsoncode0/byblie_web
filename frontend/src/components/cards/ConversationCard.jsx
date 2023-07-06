@@ -73,7 +73,7 @@ const ConversationCard = ({
           }`}
         ></span>
       </div>
-      <div className="ml-3 hidden md:flex flex-1 items-start justify-center flex-col">
+      <div className="ml-3 hidden  sm:flex flex-1 items-start justify-center flex-col">
         <h1>{user.fullname}</h1>
         <p className="text-gray-400">hello man</p>
       </div>
