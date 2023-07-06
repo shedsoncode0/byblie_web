@@ -47,8 +47,9 @@ const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
           }
           alt="image"
         />
-        <span class={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white ${isOnline ? "bg-green-400" : "bg-red-400" }`}></span>
-        
+        <span
+          class={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white bg-green-400`}
+        ></span>
       </div>
       <div className="ml-3 hidden md:flex flex-1 items-start justify-center flex-col">
         <h1>{user.fullname}</h1>
@@ -62,15 +63,3 @@ const ConversationCard = ({ conversation, currentUser, connectedUsers }) => {
 };
 
 export default ConversationCard;
-
-{
-  /* <img
-  className="rounded-full w-full h-full object-cover"
-  src={
-    user.profileImage
-      ? user.profileImage
-      : "/blank-profile-picture-973460_1280.png"
-  }
-  alt="image"
-/>; */
-}
