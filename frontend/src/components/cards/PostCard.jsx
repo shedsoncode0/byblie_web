@@ -5,6 +5,7 @@ import { BsEye } from "react-icons/bs";
 import Image4 from "../../assets/images/image4.jpeg";
 import CommentPopup from "../popups/CommentPopup";
 import { Link } from "react-router-dom";
+import ProfilePicture from "../ProfilePicture";
 
 const PostCard = ({
   commentArray,
@@ -120,17 +121,7 @@ const PostCard = ({
           <div className="flex items-center w-full">
             <div className="w-full">
               <div className="flex flex-row p-3">
-                <div className="w-auto h-auto rounded-full border-2 border-pink-500">
-                  <img
-                    className="w-12 h-12 object-cover rounded-full shadow cursor-pointer"
-                    alt=" "
-                    src={
-                      userImage
-                        ? userImage
-                        : "/blank-profile-picture-973460_1280.png"
-                    }
-                  />
-                </div>
+                <ProfilePicture userImage={userImage} />
                 <div className="flex flex-col justify-center ml-4 ">
                   <Link
                     to={`/person/${userId}`}

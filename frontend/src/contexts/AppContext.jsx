@@ -1,6 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { createAvatar } from "@dicebear/core";
 import { adventurerNeutral, adventurer } from "@dicebear/collection";
+import { io } from "socket.io-client";
 import axios from "axios";
 
 export const AppContext = createContext();
@@ -10,8 +11,10 @@ export const AppProvider = ({ children }) => {
   const [showToast, setShowToast] = useState(false);
   const [posts, setPosts] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
+  const [isOnline, setIsOnline] = useState(false);
   const [notification, setNotification] = useState([]);
-  const port = "https://byblie.onrender.com"; //https://byblie.onrender.com
+  const socket = useRef();
+  const port = "http://localhost:5000"; //https://byblie.onrender.com
   let user;
 
   const [toast, setToast] = useState({
@@ -19,6 +22,22 @@ export const AppProvider = ({ children }) => {
     icon: null,
     status: "",
   });
+
+  useEffect(() => {
+    socket.current = io(port);
+    socket.current.on("connect", () => {
+      setIsOnline(true);
+    });
+    socket.current.on("disconnect", () => {
+      setIsOnline(false);
+    });
+  }, [port]);
+
+  //   window.addEventListener('beforeunload', function (e) {
+  //     e.preventDefault();
+  //     e.returnValue = '';
+  //     setIsOnline(false)
+  // });
 
   const imageLinks = [
     "https://images.unsplash.com/photo-1480497490787-505ec076689f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
@@ -153,6 +172,10 @@ export const AppProvider = ({ children }) => {
         imageLinks,
         notification,
         setNotification,
+        isOnline,
+        setIsOnline,
+        socket,
+        io,
       }}
     >
       {children}

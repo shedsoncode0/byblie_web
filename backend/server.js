@@ -29,9 +29,9 @@ const io = require("socket.io")(server, {
 
 let users = [];
 
-const addUser = (userId, socketId) => {
+const addUser = (userId, socketId, status) => {
   !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+    users.push({ userId, socketId, status });
 };
 
 const removeUser = (socketId) => {
@@ -45,8 +45,8 @@ const getUser = (userId) => {
 io.on("connection", (socket) => {
   console.log("A user connected");
   // send a message to the client
-  socket.on("addUser", (userId) => {
-    addUser(userId, socket.id);
+  socket.on("addUser", (userId, status) => {
+    addUser(userId, socket.id, status);
     io.emit("getUsers", users);
   });
 
@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("isTyping", ({ receiverId, typing }) => {
-    console.log("Typing...")
+    console.log("Typing...");
     const user = getUser(receiverId);
     io.to(user.socketId).emit("typing", {
       typing,
