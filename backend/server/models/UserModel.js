@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -18,31 +18,27 @@ const UserSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
-      default: '',
+      default: "",
     },
     church: {
       type: String,
-      default: '',
+      default: "",
     },
     number: {
       type: String,
-      default: '',
-    },
-    gender: {
-      type: String,
-      default: '',
+      default: "",
     },
     username: {
       type: String,
-      default: '',
+      default: "",
     },
     profileImage: {
       type: String,
-      default: '',
+      default: "",
     },
     location: {
       type: String,
-      default: '',
+      default: "",
     },
     friends: {
       type: Array,
@@ -56,8 +52,20 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    number: {
+      type: String,
+      default: "",
+    },
+    instagram: {
+      type: String,
+      default: "",
+    },
+    branch: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);

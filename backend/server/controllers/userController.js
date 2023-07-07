@@ -1,5 +1,5 @@
-const bcrypt = require('bcryptjs');
-const User = require('../models/UserModel');
+const bcrypt = require("bcryptjs");
+const User = require("../models/UserModel");
 
 /**
  * @description Get all users
@@ -10,7 +10,7 @@ const getAllUser = async (req, res) => {
   const users = await User.find();
 
   if (users.length === 0) {
-    res.status(200).json({ message: 'no users' });
+    res.status(200).json({ message: "no users" });
   } else {
     res.status(200).json({ status: true, data: users });
   }
@@ -28,24 +28,24 @@ const update = async (req, res) => {
 
   if (userId === id || isAdmin) {
     // If user try to update pasword
-    if (password) {
-      try {
-        //Hashing the user password before updating it
-        const salt = await bcrypt.genSalt(10);
-        password = await bcrypt.hash(password, salt);
-      } catch (error) {
-        return res.status(500).json(error.message);
-      }
-    }
+    // if (password) {
+    //   try {
+    //     //Hashing the user password before updating it
+    //     const salt = await bcrypt.genSalt(10);
+    //     password = await bcrypt.hash(password, salt);
+    //   } catch (error) {
+    //     return res.status(500).json(error.message);
+    //   }
+    // }
 
     try {
       const user = await User.findByIdAndUpdate(id, { $set: req.body });
-      return res.status(200).json({ message: 'Account has been updated' });
+      return res.status(200).json({ message: "Account has been updated" });
     } catch (error) {
       return res.status(500).json(error.message);
     }
   } else {
-    res.status(403).json({ message: 'You can update only your account' });
+    res.status(403).json({ message: "You can update only your account" });
   }
 };
 //
@@ -69,12 +69,12 @@ const deleteUser = async (req, res) => {
       const user = await User.findByIdAndDelete(id);
       return res
         .status(200)
-        .json({ message: 'Account has been deleted successfully' });
+        .json({ message: "Account has been deleted successfully" });
     } catch (error) {
       return res.status(500).json(error.message);
     }
   } else {
-    res.status(403).json({ message: 'You can delete only your account' });
+    res.status(403).json({ message: "You can delete only your account" });
   }
 };
 
@@ -108,9 +108,9 @@ const sendFriendRequest = async (req, res) => {
   const userId = req.user.id;
 
   if (!userId || !personId) {
-    res.status(500).json({
+    res.status(400).json({
       status: false,
-      error: 'Please id is missing',
+      error: "Please id is missing",
     });
     return;
   }
@@ -126,13 +126,14 @@ const sendFriendRequest = async (req, res) => {
       if (!user.friends.includes(userId)) {
         await user.updateOne({ $push: { friends: userId } });
         await currentUser.updateOne({ $push: { friends: personId } });
-        res
-          .status(200)
-          .json({ status: true, message: 'user has been added as friend' });
+        res.status(200).json({
+          status: true,
+          message: "user has been added as friend",
+        });
       } else {
         res
           .status(403)
-          .json({ status: true, message: 'You are already friends' });
+          .json({ status: true, message: "You are already friends" });
       }
     } catch (error) {
       return res.status(500).json({ status: false, error: error });
@@ -158,7 +159,7 @@ const unfriendUser = async (req, res) => {
   if (!userId || !personId) {
     res.status(500).json({
       status: false,
-      error: 'Please id is missing',
+      error: "Please id is missing",
     });
     return;
   }
@@ -174,13 +175,14 @@ const unfriendUser = async (req, res) => {
       if (user.friends.includes(userId)) {
         await user.updateOne({ $pull: { friends: userId } });
         await currentUser.updateOne({ $pull: { friends: personId } });
-        res
-          .status(200)
-          .json({ status: true, message: 'user has been unfriend' });
+        res.status(200).json({
+          status: true,
+          message: "user has been unfriend",
+        });
       } else {
         res.status(403).json({
           status: true,
-          message: 'you are not friends with this user',
+          message: "you are not friends with this user",
         });
       }
     } catch (error) {
