@@ -9,7 +9,7 @@ const signAccessToken = (userId) => {
   };
 
   const options = {
-    expiresIn: '1d',
+    expiresIn: '1y',
     issuer: 'devtask.io',
     audience: [userId],
   };

@@ -142,11 +142,11 @@ const Navbar = ({ children }) => {
 
       {signedIn && (
         <div>
-          {!routeName.includes("message") && (
+          {!routeName.includes("message") && !routeName.includes("edit") ? (
             <div className="sticky bottom-0 inset-x-0 z-20 bg-white border-y  lg:hidden dark:bg-gray-800 dark:border-gray-700">
               <BottomNav />
             </div>
-          )}
+          ):null}
         </div>
       )}
 

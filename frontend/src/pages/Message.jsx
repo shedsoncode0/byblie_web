@@ -183,7 +183,7 @@ const Message = () => {
 
               <button
                 onClick={() => setCollaps(!collaps)}
-                className="absolute z-50 right-5   p-1 rounded-full"
+                className="absolute outline-none z-50 right-5   p-1 rounded-full"
               >
                 {collaps ? (
                   <svg
