@@ -5,6 +5,7 @@ import { GiFamilyTree } from 'react-icons/gi';
 import { AiOutlineWhatsApp } from 'react-icons/ai';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaWifi, FaCheck } from 'react-icons/fa';
 import { AppContext } from '../contexts/AppContext';
 import UserPost from '../components/UserPost';
 import axios from 'axios';
@@ -12,7 +13,8 @@ import { useParams } from 'react-router';
 import { FaInstagram } from 'react-icons/fa';
 
 const UserProfile = ({ match }) => {
-  const { userAvatar, port, user } = useContext(AppContext);
+  const { port, user, userAvatar, setShowToast, setToast } =
+    useContext(AppContext);
   const [loading, setLoading] = useState(false);
   const [userPosts, setUserPosts] = useState([]);
   const [userDetails, setUserDetails] = useState();
@@ -82,6 +84,119 @@ const UserProfile = ({ match }) => {
       });
   };
 
+  const addUserToFriend = (personId) => {
+    const getCurrentUser = () => {
+      const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
+      axios
+        .get(apiEndPoint, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+        .then((response) => {
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              userDetails: response.data,
+              userId: user.userId,
+              accessToken: user.accessToken,
+              refreschToken: user.refreschToken,
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    const apiEndPoint = `${port}/api/v1/user/addFriend`;
+    axios
+      .post(
+        apiEndPoint,
+        { personId },
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        getCurrentUser();
+        setShowToast(true);
+        setToast({
+          text: 'added a new friend',
+          icon: <FaCheck />,
+          status: 'success',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        setShowToast(true);
+        setToast({
+          text: error.response.data ? error.response.data : error.message,
+          icon: <FaWifi />,
+          status: 'error',
+        });
+      });
+  };
+
+  const unFriendUser = (personId) => {
+    const getCurrentUser = () => {
+      const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
+
+      axios
+        .get(apiEndPoint, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+        .then((response) => {
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              userDetails: response.data,
+              userId: user.userId,
+              accessToken: user.accessToken,
+              refreschToken: user.refreschToken,
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    const apiEndPoint = `${port}/api/v1/user/unFriend`;
+    axios
+      .post(
+        apiEndPoint,
+        { personId },
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        getCurrentUser();
+        setShowToast(true);
+        setToast({
+          text: 'no longer your friend',
+          icon: <FaCheck />,
+          status: 'success',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        setShowToast(true);
+        setToast({
+          text: error.response.data ? error.response.data : error.message,
+          icon: <FaWifi />,
+          status: 'error',
+        });
+      });
+  };
+
   return (
     <section className='h-full '>
       {userDetails && (
@@ -107,12 +222,21 @@ const UserProfile = ({ match }) => {
                   <div className='flex gap-2   w-full'>
                     <div
                       onClick={() => createConversation()}
-                      className='bg-blue-500 cursor-pointer px-2 py-1 text-white font-semibold text-sm rounded block text-center '
+                      className='bg-transparent cursor-pointer border-2 px-2 py-1 text-gray-500 font-semibold text-sm rounded block text-center '
                     >
                       message
                     </div>
-                    <div className='bg-blue-500 px-2 cursor-pointer py-1 text-white font-semibold text-sm rounded block text-center'>
-                      Follow
+                    <div
+                      onClick={() =>
+                        user.userDetails.friends.includes(userDetails._id)
+                          ? unFriendUser(userDetails._id)
+                          : addUserToFriend(userDetails._id)
+                      }
+                      className='bg-blue-500 px-2 cursor-pointer py-1 text-white font-semibold text-sm rounded flex justify-center items-center text-center'
+                    >
+                      {user.userDetails.friends.includes(userDetails._id)
+                        ? 'unfriend'
+                        : 'add friend'}
                     </div>
                   </div>
                 </div>
@@ -228,20 +352,22 @@ const UserProfile = ({ match }) => {
                 className='flex md:hidden justify-around space-x-8 border-t 
               text-center p-2 text-gray-600 leading-snug text-sm'
               >
-                <li>
-                  <span className='font-semibold text-gray-800 block'>136</span>
+                <li className='flex gap-1'>
+                  <span className='font-semibold'>136</span>
                   posts
                 </li>
 
-                <li>
-                  <span className='font-semibold text-gray-800 block'>
-                    40.5k
+                <li className='flex gap-1'>
+                  <span className='font-semibold'>
+                    {userDetails.friends.length}
                   </span>
-                  followers
+                  friends
                 </li>
-                <li>
-                  <span className='font-semibold text-gray-800 block'>302</span>
-                  following
+                <li className='flex gap-1'>
+                  <span className='font-semibold'>
+                    {userDetails.studys.length}
+                  </span>
+                  studys
                 </li>
               </ul>
 
