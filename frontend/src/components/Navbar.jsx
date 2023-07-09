@@ -52,8 +52,6 @@ const Navbar = ({ children }) => {
     setNavbeRoute(value);
   };
 
- 
-
   // useEffect(() => {
   //   const getUserDetails = () => {
   //     const apiEndPoint = `${port}/api/v1/user/${user.userId}`;
@@ -146,7 +144,7 @@ const Navbar = ({ children }) => {
             <div className="sticky bottom-0 inset-x-0 z-20 bg-white border-y  lg:hidden dark:bg-gray-800 dark:border-gray-700">
               <BottomNav />
             </div>
-          ):null}
+          ) : null}
         </div>
       )}
 
