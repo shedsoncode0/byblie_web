@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaWifi, FaCheck } from 'react-icons/fa';
 import { AppContext } from '../contexts/AppContext';
 import UserPost from '../components/UserPost';
+import OtherAccoutNavbar from '../components/navbars/OtherAccoutNavbar';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { FaInstagram } from 'react-icons/fa';
@@ -201,6 +202,7 @@ const UserProfile = ({ match }) => {
     <section className='h-full '>
       {userDetails && (
         <main className='bg-gray-100 pt-16 lg:pt-0 h-full bg-opacity-25'>
+          {/* <OtherAccoutNavbar /> */}
           <div className='lg:w-8/12 lg:mx-auto mb-8'>
             <header className='flex flex-wrap items-center p-4 md:py-8'>
               <div className='md:w-3/12 md:ml-16'>
@@ -215,7 +217,7 @@ const UserProfile = ({ match }) => {
               {/* <!-- profile meta --> */}
               <div className='w-8/12 md:w-7/12 ml-4'>
                 <div className='md:flex md:flex-wrap md:items-center mb-4'>
-                  <h2 className='text-3xl inline-block font-light md:mr-2 mb-2 sm:mb-0'>
+                  <h2 className='text-3xl bg-slate-400 inline-block font-light md:mr-2 mb-2 sm:mb-0'>
                     {userDetails.fullname}
                   </h2>
 
@@ -305,7 +307,7 @@ const UserProfile = ({ match }) => {
               </div>
 
               {/* <!-- user meta form small screens --> */}
-              <div className='block md:hidden mt-2'>
+              <div className='block sm:hidden mt-2'>
                 <h1 className='font-semibold'>{userDetails.fullname}</h1>
                 {userDetails.church && (
                   <span className='flex items-center gap-1'>

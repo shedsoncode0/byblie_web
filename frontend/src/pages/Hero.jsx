@@ -2,6 +2,7 @@ import Features from "../components/Features";
 import Stats from "../components/Stats";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -41,12 +42,12 @@ const Hero = () => {
 
           {/* <!-- Buttons --> */}
           <div className="mt-8 grid gap-3 w-full sm:inline-flex sm:justify-center">
-            <a
+            <Link
               className="inline-flex justify-center items-center gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white py-3 px-4 dark:focus:ring-offset-gray-800"
-              href="#"
+              to="signup"
             >
               Get Started
-            </a>
+            </Link>
           </div>
           {/* <!-- End Buttons --> */}
           <Features />

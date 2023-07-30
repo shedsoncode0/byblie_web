@@ -65,8 +65,8 @@ const SignUp = () => {
   };
 
   return (
-    <main className="w-full h-screen max-w-md mx-auto flex justify-center items-center p-6">
-      <div className=" w-full bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <main className="w-screen scrollbar overflow-y-scroll h-screen bg-white  mx-auto flex justify-center  p-6">
+      <div className=" w-full max-w-md bg-white mt-28  rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <div className="p-4 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
@@ -273,8 +273,6 @@ const SignUp = () => {
                     </label>
                   </div>
                 </div>
-                {/* <!-- End Checkbox --> */}
-
                 <button
                   onClick={handleSubmit}
                   type="submit"
@@ -282,6 +280,8 @@ const SignUp = () => {
                 >
                   {isLoading ? <Spinner /> : "Sign up"}
                 </button>
+                {/* <!-- End Checkbox --> */}
+
               </div>
             </form>
             {/* <!-- End Form --> */}

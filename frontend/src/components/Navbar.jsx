@@ -16,6 +16,7 @@ import ProfileNavbar from "./navbars/ProfileNavbar";
 import CreatePageNavbar from "./navbars/CreatePageNavbar";
 import CreatePopup from "./popups/CreatePopup";
 import axios from "axios";
+import OtherAccoutNavbar from "./navbars/OtherAccoutNavbar";
 
 const links = [
   { name: "Home", to: "feed", icon: <BiHomeAlt2 size={27} /> },
@@ -72,9 +73,9 @@ const Navbar = ({ children }) => {
 
   return (
     <div className="flex h-full">
-      {routeName !== "/" &&
-      routeName !== "/login" &&
-      routeName !== "/signup" ? (
+      {routeName !== "#/" &&
+      routeName !== "#/login" &&
+      routeName !== "#/signup" ? (
         <div
           id="application-sidebar"
           className="hs-overlay scrollbar hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden space-y-5 h-full top-0 left-0 bottom-0 z-[50] w-[300px] bg-white border-r border-gray-200 pt-10 pb-10 overflow-y-auto scrollbar-y lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:scrollbar-y dark:bg-gray-800 dark:border-gray-700"
@@ -133,6 +134,7 @@ const Navbar = ({ children }) => {
           {routeName.includes("feed") ? <HomeNavbar /> : null}
           {routeName.includes("profile") ? <ProfileNavbar /> : null}
           {routeName.includes("create") ? <CreatePageNavbar /> : null}
+          {routeName.includes("person") ? <OtherAccoutNavbar /> : null}
         </div>
         {children}
       </div>

@@ -19,6 +19,7 @@ import { useContext, useEffect } from 'react';
 import { AppContext } from './contexts/AppContext';
 import UserProfile from './pages/UserProfile';
 import EditProfile from './pages/EditProfile';
+import NotFound from './pages/404.jsx';
 
 function App() {
   const { signedIn } = useContext(AppContext);
@@ -35,7 +36,8 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='*' element={<Navigate to='/' />} />
+        <Route path='*' element={<Navigate to='/404' />} />
+        <Route path='/404' element={<NotFound />} />
         <Route path='/' element={<Hero />} />
         <Route path='/login' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
